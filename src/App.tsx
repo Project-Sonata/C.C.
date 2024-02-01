@@ -5,7 +5,6 @@ import Login from "./login";
 function App() {
     return (
         <div className="App">
-            <h1>Application</h1>
             <BrowserRouter>
                 <Routes>
                     <Route path={"/login"} element={<Login/>}>
