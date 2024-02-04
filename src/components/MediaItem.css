@@ -1,0 +1,28 @@
+.volume-mixer .MuiSlider-thumb {
+    display: none;
+}
+
+.volume-mixer .MuiSlider-track {
+    color: white;
+}
+
+.volume-mixer:active .MuiSlider-thumb {
+    color: green;
+    display: flex;
+    width: 10px;
+    height: 10px;
+    box-shadow: none;
+}
+
+.volume-mixer:hover .MuiSlider-thumb {
+    color: green;
+    display: flex;
+    width: 10px;
+    height: 10px;
+    box-shadow: none;
+}
+
+.volume-mixer:hover .MuiSlider-track {
+    color: white;
+    display: flex;
+}

@@ -14,6 +14,7 @@ const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidth,
+    position: "relative",
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -25,6 +26,8 @@ const Drawer = styled(MuiDrawer)(
     ({theme}) => ({
         width: drawerWidth,
         flexShrink: 0,
+        // hardcoded but i don't give a shit how to fix this stuff
+        height: "93%",
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
         ...openedMixin(theme),
@@ -36,9 +39,11 @@ export default function MiniDrawer() {
     const open = true;
 
     return (
-        <Box sx={{display: 'flex'}}>
+        <Box sx={{display: 'flex', height: "full"}}>
             <CssBaseline/>
-            <Drawer variant="permanent" anchor={"left"} open={open}>
+            <Drawer variant="permanent" anchor={"left"} open={open} sx={{
+                display: "flex"
+            }}>
 
                 <Box textAlign={"center"}>
                     <Typography variant={"h5"} padding={"10px"}>Sonata</Typography>
