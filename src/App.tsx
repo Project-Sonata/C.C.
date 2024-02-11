@@ -4,6 +4,8 @@ import MiniDrawer from './components/sidebar/Sidebar';
 import Login from "./login";
 import Search from "./components/search/Search";
 import AudioPlayer from "./components/player/AudioPlayer";
+import {HomePageContent} from "./app/home/HomePageContent";
+import HomePage from "./app/home/HomePage";
 
 const Layout = ({ children }: any) => {
     return (
@@ -20,27 +22,10 @@ const Layout = ({ children }: any) => {
                 </div>
             </div>
 
-            {/* AudioPlayer */}
             <AudioPlayer />
         </div>
     );
 };
-
-const PlayerLayout = ({children}: any) => {
-    return (
-        <div>
-            {children}
-        </div>
-    );
-}
-
-function Home() {
-    return (
-        <div>
-            HOME
-        </div>
-    );
-}
 
 function App() {
     return (
@@ -49,7 +34,7 @@ function App() {
                     <Layout>
 
                         <Routes>
-                            <Route path={"/"} element={<Home/>}>
+                            <Route path={"/"} element={<HomePage/>}>
                             </Route>
                             <Route path={"/search"} element={<Search/>}>
                             </Route>

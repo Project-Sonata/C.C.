@@ -1,12 +1,12 @@
-.volume-mixer .MuiSlider-thumb {
+.slider .MuiSlider-thumb {
     display: none;
 }
 
-.volume-mixer .MuiSlider-track {
+.slider .MuiSlider-track {
     color: white;
 }
 
-.volume-mixer:active .MuiSlider-thumb {
+.slider:active .MuiSlider-thumb {
     color: green;
     display: flex;
     width: 10px;
@@ -14,7 +14,7 @@
     box-shadow: none;
 }
 
-.volume-mixer:hover .MuiSlider-thumb {
+.slider:hover .MuiSlider-thumb {
     color: green;
     display: flex;
     width: 10px;
@@ -22,7 +22,7 @@
     box-shadow: none;
 }
 
-.volume-mixer:hover .MuiSlider-track {
+.slider:hover .MuiSlider-track {
     color: white;
     display: flex;
 }
