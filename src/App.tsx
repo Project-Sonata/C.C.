@@ -6,6 +6,7 @@ import Search from "./components/search/Search";
 import AudioPlayer from "./components/player/AudioPlayer";
 import {HomePageContent} from "./app/home/HomePageContent";
 import HomePage from "./app/home/HomePage";
+import usePlayer from "./hooks/usePlayer";
 
 const Layout = ({ children }: any) => {
     return (

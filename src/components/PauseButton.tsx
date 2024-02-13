@@ -1,13 +1,13 @@
 import * as React from 'react';
 import {Box, Button} from "@mui/material";
-import {Track} from "../model/Track";
-import {PlayArrow, PlayCircle} from "@mui/icons-material";
+import {Pause} from "@mui/icons-material";
 
 type Props = {
     onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-export const PlayButton = (props: Props) => {
+export const PauseButton = (props: Props) => {
+
     return (
         <Box
             sx={{
@@ -32,7 +32,7 @@ export const PlayButton = (props: Props) => {
                 }}
                 onClick={props.onClick}
             >
-                <PlayArrow sx={{ fontSize: 32, color: 'black'}}/>
+                <Pause sx={{ fontSize: 32, color: 'black'}}/>
             </Button>
         </Box>
     );
