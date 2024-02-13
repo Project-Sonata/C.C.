@@ -17,35 +17,45 @@ uris.set('1234', "./test2.mp3")
 
 type AudioPlayerContentProps = {
     song: Track,
+    isActive: boolean
 }
 
-function AudioPlayerContent({song}: AudioPlayerContentProps) {
+function AudioPlayerContent({song, isActive}: AudioPlayerContentProps) {
     const player = usePlayer()
     const DEFAULT_VOLUME = 0.2;
-    const [isPlaying, setIsPlaying] = useState(false)
+    const [isPlaying, setIsPlaying] = useState(isActive)
 
     const [play, {pause, sound, duration}] = useSound(
         uris.get(player.activeId),
         {
             volume: DEFAULT_VOLUME,
-            onplay: () => {
-                console.log("playing")
-                setIsPlaying(true);
-            },
             onend: () => setIsPlaying(false),
-            onpause: () => setIsPlaying(false),
             format: ['mp3']
         }
     );
 
     useEffect(() => {
-        play()
-        setIsPlaying(true)
+        player.setIsActive(isPlaying)
+    }, [isPlaying]);
+
+    useEffect(() => {
+        if (isActive) {
+            if (!sound?.playing()) {
+                onPlay()
+            }
+        } else {
+            onPause()
+        }
+    }, [isActive])
+
+    useEffect(() => {
+        onPlay()
         return () => {
             sound?.unload();
             setIsPlaying(false)
         }
     }, [sound]);
+
 
     function onPause() {
         setIsPlaying(false)
@@ -76,14 +86,6 @@ function AudioPlayerContent({song}: AudioPlayerContentProps) {
 
     function onPlayPrevious() {
 
-    }
-
-    function handlePlay() {
-        if (isPlaying) {
-            onPause()
-        } else {
-            onPlay()
-        }
     }
 
     return (

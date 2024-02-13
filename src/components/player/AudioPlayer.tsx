@@ -7,6 +7,7 @@ function AudioPlayer() {
     const player = usePlayer()
     const currentTrack = player.currentTrack
     console.log(currentTrack)
+
     if (!currentTrack) {
         return <div></div>;
     }
@@ -23,7 +24,7 @@ function AudioPlayer() {
                  paddingTop: "0.5rem",
                  paddingBottom: "0.5rem"
              }}>
-            <AudioPlayerContent key={player.activeId} song={currentTrack}/>
+            <AudioPlayerContent key={player.activeId} song={currentTrack} isActive={player.isActive}/>
         </div>
     );
 }
