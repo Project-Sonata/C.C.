@@ -23,7 +23,7 @@ const usePlayer = create<PlayerStore>((set) => ({
     setId: (id: string) => set({ activeId: id }),
     setIds: (ids: string[]) => set({ ids }),
     setIsActive: (isActive: boolean) => set({isActive: isActive}),
-    reset: () => set({ ids: [], activeId: undefined, currentTrack: undefined })
+    reset: () => set({ ids: [], activeId: undefined, currentTrack: undefined, isActive: false })
 }));
 
 export default usePlayer;

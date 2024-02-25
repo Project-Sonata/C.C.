@@ -8,11 +8,13 @@ import {Track} from "../../model/Track";
 import {Timeline} from "../Timeline";
 import {PlayerOperations} from "../PlayerOperations";
 import {AudioControls} from "../AudioControls";
+import useQueue from "../../hooks/useQueue";
 
 const uris = new Map();
 
 uris.set('123', "./test.mp3",)
 uris.set('1234', "./test2.mp3")
+uris.set('1235', "./test3.mp3")
 
 
 type AudioPlayerContentProps = {
@@ -22,6 +24,7 @@ type AudioPlayerContentProps = {
 
 function AudioPlayerContent({song, isActive}: AudioPlayerContentProps) {
     const player = usePlayer()
+    const queue = useQueue()
     const DEFAULT_VOLUME = 0.2;
     const [isPlaying, setIsPlaying] = useState(isActive)
 
@@ -29,7 +32,7 @@ function AudioPlayerContent({song, isActive}: AudioPlayerContentProps) {
         uris.get(player.activeId),
         {
             volume: DEFAULT_VOLUME,
-            onend: () => setIsPlaying(false),
+            onend: () => onPlayNext(),
             format: ['mp3']
         }
     );
@@ -81,7 +84,14 @@ function AudioPlayerContent({song, isActive}: AudioPlayerContentProps) {
     }
 
     function onPlayNext() {
-
+        const nextTrack = queue.next()
+        if (!nextTrack) {
+            setIsPlaying((false))
+            return;
+        }
+        player.setId(nextTrack.id)
+        player.setCurrentTrack(nextTrack)
+        player.setIsActive(true)
     }
 
     function onPlayPrevious() {
@@ -105,7 +115,7 @@ function AudioPlayerContent({song, isActive}: AudioPlayerContentProps) {
                   alignContent="center"
                   spacing={0}
                   item xs={12} md={4}>
-                <AudioControls isPlaying={isPlaying} onPlay={onPlay} onPause={onPause}/>
+                <AudioControls onNext={onPlayNext} isPlaying={isPlaying} onPlay={onPlay} onPause={onPause}/>
 
                 <Grid container>
                     <Timeline duration={duration}

@@ -1,27 +1,56 @@
 import * as React from 'react';
 import {Track} from "../../model/Track";
-import {Box, Slide, Typography, useTheme} from "@mui/material";
+import {Box, Menu, MenuItem, Slide, Typography, useTheme} from "@mui/material";
 import {Image, Pause, PlayCircle} from "@mui/icons-material";
 import {PlayButton} from "../PlayButton";
 import {useState} from "react";
 import usePlayer from "../../hooks/usePlayer";
 import {PauseButton} from "../PauseButton";
+import {TrackMenu} from "../TrackMenu";
+import useOnPlay from "../../hooks/useOnPlay";
+import useOnPause from "../../hooks/useOnPause";
 
 type Props = {
     track: Track,
     isPlaying: boolean
 };
 
-export function SongItem({track, isPlaying}: Props) {
+export function SongCard({track, isPlaying}: Props) {
     const theme = useTheme()
-    const player = usePlayer()
+    const onPlay = useOnPlay(track)
+    const onPause = useOnPause()
+
     const [showPlayButton, setShowPlayButton] = useState(false)
     const containerRef = React.useRef<HTMLElement>(null);
+    const [contextMenu, setContextMenu] = React.useState<{
+        mouseX: number;
+        mouseY: number;
+    } | null>(null);
+
+    const handleContextMenu = (event: React.MouseEvent) => {
+        event.preventDefault();
+        setContextMenu(
+            contextMenu === null
+                ? {
+                    mouseX: event.clientX + 2,
+                    mouseY: event.clientY - 6,
+                }
+                : // repeated contextmenu when it is already open closes it with Chrome 84 on Ubuntu
+                  // Other native context menus might behave different.
+                  // With this behavior we prevent contextmenu from the backdrop to re-locale existing context menus.
+                null,
+        );
+    };
+
+    const handleClose = () => {
+        setContextMenu(null);
+    };
 
     return (
         <Box
             onMouseEnter={() => setShowPlayButton(true)}
             onMouseLeave={() => setShowPlayButton(false)}
+            onContextMenu={handleContextMenu}
             sx={{
                 position: 'relative',
                 display: 'flex',
@@ -81,15 +110,23 @@ export function SongItem({track, isPlaying}: Props) {
                 transition: 'opacity 0.3s, transform 0.3s',
             }}>
                 {isPlaying ?
-                    <PauseButton onClick={() => player.setIsActive(false)}/> :
+                    <PauseButton onClick={onPause}/> :
                     showPlayButton ?
-                        <PlayButton onClick={(event) => {
-                            player.setId(track.id)
-                            player.setCurrentTrack(track)
-                            player.setIsActive(true)
-                        }}/> : <div/>}
+                        <PlayButton onClick={onPlay}/> : <div/>}
+            </Box>
+
+            <Box>
+                <TrackMenu track={track}
+                           menuProps={{
+                               open: contextMenu !== null,
+                               onClose: handleClose,
+                               anchorReference: "anchorPosition",
+                               anchorPosition: contextMenu !== null
+                                   ? {top: contextMenu.mouseY, left: contextMenu.mouseX}
+                                   : undefined
+                           }}
+                           handleClose={handleClose}/>
             </Box>
         </Box>
-
     );
 };

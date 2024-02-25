@@ -6,12 +6,13 @@ import {PlayCircle, SkipNext, SkipPrevious, StopCircle} from "@mui/icons-materia
 type Props = {
     onPlay: () => void;
     onPause: () => void;
-    isPlaying: boolean;
+    isPlaying: boolean,
+    onNext: () => void
 };
-export const AudioControls = ({onPause, onPlay, isPlaying}: Props) => {
+export const AudioControls = ({onPause, onPlay, isPlaying, onNext}: Props) => {
 
     function onPlayNext() {
-
+        onNext()
     }
 
     function onPlayPrevious() {
