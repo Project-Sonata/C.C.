@@ -5,6 +5,7 @@ import useQueue from "../../hooks/useQueue";
 import useDevices from "../../hooks/useDevices";
 import getDevicesForUser from "../../actions/getDevicesForUser";
 import {Device} from "../../model/Device";
+import {socket} from "../../ws/socket";
 
 function AudioPlayer() {
     const player = usePlayer()
@@ -24,7 +25,32 @@ function AudioPlayer() {
 
         devicesHook.setInactiveDevices(inactiveDevices)
     }, [devices])
-
+    //
+    // useEffect(() => {
+    //     function onConnect() {
+    //         console.log('opened connection')
+    //     }
+    //
+    //     function onDisconnect() {
+    //         console.log('closed connection');
+    //     }
+    //
+    //     function onNewDeviceConnected(value: MessageEvent) {
+    //         console.log("A NEW EVENT: ")
+    //         console.log(JSON.parse(value.data).event_type)
+    //     }
+    //
+    //     socket.addEventListener('connect', onConnect);
+    //     socket.addEventListener('close', onDisconnect);
+    //     socket.addEventListener('message', onNewDeviceConnected);
+    //
+    //     return () => {
+    //         // socket.off('connect', onConnect);
+    //         // socket.off('close', onDisconnect);
+    //         // socket.off('foo', onNewDeviceConnected);
+    //         socket.close()
+    //     };
+    // }, []);
 
     if (!currentTrack || !player.activeId) {
         return <div></div>;

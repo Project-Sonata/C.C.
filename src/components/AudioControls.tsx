@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import {Box, IconButton} from "@mui/material";
-import {PlayCircle, SkipNext, SkipPrevious, StopCircle} from "@mui/icons-material";
+import {Pause, PauseCircle, PlayCircle, SkipNext, SkipPrevious, StopCircle} from "@mui/icons-material";
 
 type Props = {
     onPlay: () => void;
@@ -37,7 +37,7 @@ export const AudioControls = ({onPause, onPlay, isPlaying, onNext}: Props) => {
 
             <Box style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
                 <IconButton onClick={handlePlay} style={{width: '40px', height: '40px'}}>
-                    {isPlaying ? <StopCircle fontSize="large"/> : <PlayCircle fontSize="large"/>}
+                    {isPlaying ? <PauseCircle fontSize="large"/> : <PlayCircle fontSize="large"/>}
                 </IconButton>
             </Box>
 

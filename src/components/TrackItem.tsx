@@ -13,15 +13,15 @@ type Props = {
     track: Track,
     index: number,
     isActive: boolean,
-    isCurrentlyPlaying: boolean
+    isCurrentlyPlaying: boolean,
+    onPlayRequested: (track: Track) => void,
 };
 
-export function TrackItem({track, index, isActive, isCurrentlyPlaying}: Props) {
+export function TrackItem({track, index, isActive, isCurrentlyPlaying, onPlayRequested}: Props) {
     const theme = useTheme()
     const [showPlayPauseButton, setShowPlayPauseButton] = useState(false)
-    const onPlay = useOnPlay(track)
+    const onPlay = onPlayRequested
     const onPause = useOnPause()
-    console.log(isCurrentlyPlaying)
 
     return (
         <Box
@@ -56,7 +56,7 @@ export function TrackItem({track, index, isActive, isCurrentlyPlaying}: Props) {
                             sx:{
                                 backgroundColor: 'transparent'
                             }
-                        }} onClick={onPlay}/> :
+                        }} onClick={() => onPlay(track)}/> :
                     isActive ?
                         <Equalizer/> :
                         isCurrentlyPlaying ?

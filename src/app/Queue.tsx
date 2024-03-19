@@ -4,6 +4,7 @@ import {TrackItem} from "../components/TrackItem";
 import {Box, Typography} from "@mui/material";
 import Divider from "@mui/material/Divider";
 import usePlayer from "../hooks/usePlayer";
+import useOnPlay from "../hooks/useOnPlay";
 
 interface Props {
 }
@@ -12,6 +13,7 @@ interface Props {
 function Queue(props: Props) {
     const queue = useQueue()
     const player = usePlayer()
+    const onPlay = useOnPlay(queue.tracks)
 
     if (!queue.currentTrack && queue.tracks.length === 0) {
         return (
@@ -33,7 +35,7 @@ function Queue(props: Props) {
                 flexDirection: 'column',
             }}>
                 <Typography>Currently playing</Typography>
-                <TrackItem index={1} track={queue.currentTrack} isActive={player.isActive} isCurrentlyPlaying={true}></TrackItem>
+                <TrackItem index={1} track={queue.currentTrack} isActive={player.isActive} isCurrentlyPlaying={true} onPlayRequested={onPlay}/>
             </Box>
             <Divider variant={"fullWidth"}/>
 
@@ -47,6 +49,7 @@ function Queue(props: Props) {
                             <TrackItem index={index + 2} track={track}
                                        isCurrentlyPlaying={false}
                                        isActive={false}
+                                       onPlayRequested={() => onPlay(track)}
                             />)
                 }
             </Box>

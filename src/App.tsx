@@ -11,6 +11,7 @@ import {useCurrentDevice} from "./hooks/useCurrentDevice";
 import {useConnectDevice} from "./hooks/useConnectDevice";
 import Queue from "./app/Queue";
 import {Box} from "@mui/material";
+import {PlaylistPage} from "./app/playlist/PlaylistPage";
 
 const Layout = ({children}: any) => {
     return (
@@ -22,41 +23,31 @@ const Layout = ({children}: any) => {
         }}>
             <MiniDrawer/>
             {/* Main content */}
-            <main style={{flexGrow: 1, padding: '20px', overflow: 'auto', height: 'calc(100vh - 100px)'}}>
+            <main style={{flexGrow: 1,width:"calc(100vh - 240px)", overflow: 'auto', height: 'calc(100vh - 100px)'}}>
                 {children}
             </main>
             <AudioPlayer/>
         </Box>
-
-        // <div style={{display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>
-        //     <div style={{flex: 1}}>
-        //         <div style={{display: 'flex', minHeight: 'calc(100vh - 64px)', position: 'relative'}}>
-        //             {/* MiniDrawer */}
-        //
-        //         </div>
-        //     </div>
-        //
-        // </div>
     );
 };
 
 function App() {
-    const currentDevice = useCurrentDevice();
-    const [onConnectDevice, onDisconnectRequest] = useConnectDevice(currentDevice)
+    // const currentDevice = useCurrentDevice();
+    // const [onConnectDevice, onDisconnectRequest] = useConnectDevice(currentDevice)
     const initialized = useRef(false)
 
-    useEffect(() => {
-        if (!initialized.current) {
-            initialized.current = true;
-            onConnectDevice()
-                .then(resp => console.log('connected device with status: ' + resp.status))
-
-            return () => {
-                onDisconnectRequest().then(() => console.log('disconnected device'))
-            }
-        }
-
-    }, [])
+    // useEffect(() => {
+    //     if (!initialized.current) {
+    //         initialized.current = true;
+    //         onConnectDevice()
+    //             .then(resp => console.log('connected device with status: ' + resp.status))
+    //
+    //         return () => {
+    //             onDisconnectRequest().then(() => console.log('disconnected device'))
+    //         }
+    //     }
+    //
+    // }, [])
 
     return (
         <div className="App">
@@ -67,6 +58,7 @@ function App() {
                         <Route path={"/"} element={<HomePage/>}/>
                         <Route path={"/search"} element={<Search/>}/>
                         <Route path={'/queue'} element={<Queue/>}/>
+                        <Route path={"/playlist/:playlistId"} element={<PlaylistPage/>}/>
                     </Routes>
                 </Layout>
             </BrowserRouter>

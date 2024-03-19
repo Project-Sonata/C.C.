@@ -12,9 +12,9 @@ import useQueue from "../../hooks/useQueue";
 
 const uris = new Map();
 
-uris.set('123', "./test.mp3",)
-uris.set('1234', "./test2.mp3")
-uris.set('1235', "./test3.mp3")
+uris.set('123', "/test.mp3",)
+uris.set('1234', "/test2.mp3")
+uris.set('1235', "/test3.mp3")
 
 
 type AudioPlayerContentProps = {

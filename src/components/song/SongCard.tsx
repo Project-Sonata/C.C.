@@ -17,7 +17,7 @@ type Props = {
 
 export function SongCard({track, isPlaying}: Props) {
     const theme = useTheme()
-    const onPlay = useOnPlay(track)
+    const onPlay = useOnPlay([])
     const onPause = useOnPause()
 
     const [showPlayButton, setShowPlayButton] = useState(false)
@@ -112,7 +112,7 @@ export function SongCard({track, isPlaying}: Props) {
                 {isPlaying ?
                     <PauseButton onClick={onPause}/> :
                     showPlayButton ?
-                        <PlayButton onClick={onPlay}/> : <div/>}
+                        <PlayButton onClick={() => onPlay(track)}/> : <div/>}
             </Box>
 
             <Box>
