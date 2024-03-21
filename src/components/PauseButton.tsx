@@ -19,6 +19,8 @@ export const PauseButton = ({onClick, buttonProps, boxProps}: Props) => {
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
+                width: 48,
+                height: 48,
                 justifyContent: 'center',
                 backgroundColor: '#4CAF50',
                 padding: 0,

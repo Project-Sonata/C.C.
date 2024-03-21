@@ -12,7 +12,7 @@ type Props = {
 };
 export const PlaylistContent = ({playlist}: Props) => {
     const player = usePlayer();
-    const onPlay = useOnPlay(playlist.tracks, "sonata:playlist:" + playlist.id);
+    const onPlay = useOnPlay(playlist.tracks, playlist.context);
 
     return (
         <Box>
@@ -21,8 +21,8 @@ export const PlaylistContent = ({playlist}: Props) => {
             <Box>
                 {
                     playlist.tracks.map((track, index) => <TrackItem index={index + 1} track={track}
-                                                                     isCurrentlyPlaying={player.activeId === track.id}
-                                                                     isActive={player.activeId === track.id && player.isActive}
+                                                                     isCurrentlyPlaying={player.context === playlist.context && track.id === player.activeId}
+                                                                     isActive={player.context === playlist.context && track.id === player.activeId && player.isActive}
                                                                      onPlayRequested={onPlay}/>)
                 }
             </Box>

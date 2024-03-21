@@ -7,5 +7,6 @@ export interface Track {
     author: Author,
     imageUrl: string,
     album: Album,
-    durationMs: number
+    durationMs: number,
+    context: string
 }

@@ -14,7 +14,8 @@ export const PlaylistHeader = ({playlist: {description, image, name}}: Props) =>
     console.log(data, loading, error)
     return (
         <Box display={"flex"} width={"100%"} height={"30%"} sx={{
-            backgroundColor: data
+            background: data
+
         }}>
             <Box sx={{
                 padding: "20px"

@@ -9,6 +9,7 @@ import Divider from '@mui/material/Divider';
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import SidebarButtonItem from "./SidebarButtonItem";
+import {LibraryMusicRounded} from "@mui/icons-material";
 
 const drawerWidth = 240;
 
@@ -54,6 +55,11 @@ export default function MiniDrawer() {
                     <SidebarButtonItem text={"Search"} link={"/search"} Icon={SearchIcon}/>
                 </List>
                 <Divider/>
+                <Box>
+                    <List>
+                        <SidebarButtonItem text={"Library"} link={"/library"} Icon={LibraryMusicRounded}/>
+                    </List>
+                </Box>
             </Drawer>
         </Box>
     );

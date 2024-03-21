@@ -20,6 +20,8 @@ export const PlayButton = ({onClick, boxProps, buttonProps}: Props) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                width: 48,
+                height: 48,
                 backgroundColor: '#4CAF50',
                 padding: 0,
                 boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',

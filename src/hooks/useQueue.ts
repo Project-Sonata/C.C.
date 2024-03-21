@@ -12,6 +12,8 @@ export interface Queue {
     nextTracks: () => Track[],
     add: (track: Track) => void,
     remove: (trackId: string) => void
+
+    previous:() => Track | null;
 }
 
 const useQueue = create<Queue>((set, get) => ({
@@ -45,6 +47,19 @@ const useQueue = create<Queue>((set, get) => ({
         console.log('current index: ' + currentIndex)
         console.log(get().tracks.slice(currentIndex + 1))
         return get().tracks.slice(currentIndex + 1)
+    },
+    previous: () => {
+        const prevIndex = get().currentIndex - 1
+
+        console.log('current index: ' + prevIndex)
+
+        if (prevIndex < 0) {
+            return null
+        }
+        const prevTrack = get().tracks[prevIndex]
+        get().setCurrentTrack(prevTrack)
+        get().setCurrentIndex(prevIndex)
+        return prevTrack;
     }
 }));
 

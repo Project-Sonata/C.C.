@@ -13,11 +13,10 @@ type Props = {
 };
 export const PlaylistOptions = ({playlist}: Props) => {
     const tracks = playlist.tracks;
-    const playlistContext = "sonata:playlist:" + playlist.id;
     const player = usePlayer()
-    const onPlay = useOnPlay(tracks, playlistContext);
+    const onPlay = useOnPlay(tracks, playlist.context);
     const onPause = useOnPause()
-    console.log(player)
+
     return (
         <Box>
             <Box sx={{
@@ -27,7 +26,7 @@ export const PlaylistOptions = ({playlist}: Props) => {
                 display: 'inline-block'
             }}>
                 {
-                    player.context === playlistContext ?
+                    player.context === playlist.context ?
                         player.isActive ? <PauseButton onClick={onPause}/> :
                             <PlayButton onClick={() => onPlay()}/>
                         : <PlayButton onClick={() => onPlay(tracks[0])}/>

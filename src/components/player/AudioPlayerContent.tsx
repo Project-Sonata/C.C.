@@ -15,6 +15,10 @@ const uris = new Map();
 uris.set('123', "/test.mp3",)
 uris.set('1234', "/test2.mp3")
 uris.set('1235', "/test3.mp3")
+uris.set('1236', "/test4.mp3")
+uris.set('1237', "/test5.mp3")
+uris.set('1238', "/test6.mp3")
+uris.set('1239', "/test7.mp3")
 
 
 type AudioPlayerContentProps = {
@@ -86,7 +90,8 @@ function AudioPlayerContent({song, isActive}: AudioPlayerContentProps) {
     function onPlayNext() {
         const nextTrack = queue.next()
         if (!nextTrack) {
-            setIsPlaying((false))
+            setIsPlaying(false)
+            player.setContext(undefined)
             return;
         }
         player.setId(nextTrack.id)
@@ -95,6 +100,15 @@ function AudioPlayerContent({song, isActive}: AudioPlayerContentProps) {
     }
 
     function onPlayPrevious() {
+        const previous = queue.previous()
+
+        if (!previous) {
+            setIsPlaying(false)
+            return;
+        }
+        player.setId(previous.id)
+        player.setCurrentTrack(previous)
+        player.setIsActive(true)
 
     }
 
@@ -115,7 +129,7 @@ function AudioPlayerContent({song, isActive}: AudioPlayerContentProps) {
                   alignContent="center"
                   spacing={0}
                   item xs={12} md={4}>
-                <AudioControls onNext={onPlayNext} isPlaying={isPlaying} onPlay={onPlay} onPause={onPause}/>
+                <AudioControls onNext={onPlayNext} onPrev={onPlayPrevious} isPlaying={isPlaying} onPlay={onPlay} onPause={onPause}/>
 
                 <Grid container>
                     <Timeline duration={duration}

@@ -6,4 +6,5 @@ export interface Playlist {
     description: string,
     image: string,
     tracks: Track[]
+    context: string,
 }

@@ -1,3 +1,6 @@
+import {Devices} from "./Devices";
+import {PlayableItem} from "./PlayableItem";
+
 /**
  * Abstract event that received when player is updated
  */
@@ -13,14 +16,26 @@ export interface PlayerEvent {
 /**
  * Represents the current player state.
  */
-interface CurrentPlayerState {
-    // Define properties relevant to the player state
+export interface CurrentPlayerState {
+    isPlaying: boolean; // Indicates if player plays something
+    repeatState: RepeatState; // Repeat state
+    shuffleState: boolean; // Shuffle state
+    currentlyPlayingType: string; // Type of currently playing item
+    progressMs: number; // Progress in milliseconds
+    devices: Devices; // Devices information
+    playingItem: PlayableItem; // Currently playing item
+}
+
+export enum RepeatState {
+    OFF,
+    TRACK,
+    CONTEXT
 }
 
 /**
  * List of the player event types to return to the client
  */
-enum EventType {
+export enum EventType {
     PLAYER_STATE_UPDATED,
     QUEUE_STATE_CHANGED,
     NEW_DEVICE_CONNECTED,

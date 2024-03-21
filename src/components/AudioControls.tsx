@@ -7,16 +7,17 @@ type Props = {
     onPlay: () => void;
     onPause: () => void;
     isPlaying: boolean,
-    onNext: () => void
+    onNext: () => void,
+    onPrev: () => void,
 };
-export const AudioControls = ({onPause, onPlay, isPlaying, onNext}: Props) => {
+export const AudioControls = ({onPause, onPlay, isPlaying, onNext, onPrev}: Props) => {
 
     function onPlayNext() {
         onNext()
     }
 
     function onPlayPrevious() {
-
+        onPrev()
     }
 
     function handlePlay() {

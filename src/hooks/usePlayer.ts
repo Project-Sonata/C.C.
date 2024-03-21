@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import {Track} from "../model/Track";
 
-interface PlayerStore {
+export interface PlayerStore {
     ids: string[];
     activeId?: string;
     currentTrack?: Track;
@@ -10,7 +10,7 @@ interface PlayerStore {
     setId: (id: string) => void;
     setIds: (ids: string[]) => void;
     setCurrentTrack: (track: Track) => void;
-    setContext: (context: string) => void;
+    setContext: (context?: string) => void;
     setIsActive: (isActive: boolean) => void;
     reset: () => void;
 
@@ -26,7 +26,7 @@ const usePlayer = create<PlayerStore>((set) => ({
     setId: (id: string) => set({ activeId: id }),
     setIds: (ids: string[]) => set({ ids }),
     setIsActive: (isActive: boolean) => set({isActive: isActive}),
-    setContext: (context: string) => set({context: context}),
+    setContext: (context?: string) => set({context: context}),
     reset: () => set({ ids: [], activeId: undefined, currentTrack: undefined, isActive: false })
 }));
 
