@@ -1,11 +1,14 @@
 import * as React from 'react';
 import {Track} from "../../model/Track";
-import {SongItem} from "../../components/song/SongItem";
-import {Grid} from "@mui/material";
+import {SongCard} from "../../components/song/SongCard";
+import {Box, Grid, Typography} from "@mui/material";
 import usePlayer from "../../hooks/usePlayer";
+import {Playlist} from "../../model/Playlist";
+import {PlaylistCard} from "../../components/PlaylistCard";
 
 type Props = {
-    tracks: Track[]
+    tracks: Track[],
+    playlists: Playlist[]
 };
 
 export const HomePageContent = (props: Props) => {
@@ -18,13 +21,29 @@ export const HomePageContent = (props: Props) => {
         )
     }
     return (
-        <Grid container spacing={2}>
-            {props.tracks.map(
-                track =>
-                    <Grid item xs={1.5}>
-                        <SongItem track={track} isPlaying={player.activeId === track.id && player.isActive}/>
-                    </Grid>
-            )}
-        </Grid>
+        <Box>
+            <Grid container spacing={2}>
+                {props.tracks.map(
+                    track =>
+                        <Grid key={track.id} item xs={2}>
+                            <SongCard track={track} isPlaying={player.activeId === track.id && player.isActive}/>
+                        </Grid>
+                )}
+            </Grid>
+            <Box>
+                <Typography>Playlists you created</Typography>
+                <Grid container spacing={2}>
+                    {
+                        props.playlists.map(
+                            playlist =>
+                                <Grid key={playlist.id} item xs={2}>
+                                    <PlaylistCard playlist={playlist}
+                                                  isPlaying={player.context === playlist.context && player.isActive}/>
+                                </Grid>
+                            )
+                    }
+                </Grid>
+            </Box>
+        </Box>
     );
 };

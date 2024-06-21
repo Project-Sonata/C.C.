@@ -3,6 +3,7 @@ import * as React from 'react';
 import {SonataSlider} from "./SonataSlider";
 import {Box} from "@mui/material";
 import {useRef, useState} from "react";
+import {millisToMinutesAndSeconds} from "../utils/TimeUtils";
 
 interface Props {
     duration: number | null,
@@ -68,7 +69,7 @@ export function Timeline({duration, playerControls, onTimeUpdateRequested}: Prop
             alignItems: 'center',
             gap: '1rem'
         }}>
-            {millisToMinutesAndSeconds(trackTime)}
+            {millisToMinutesAndSeconds(trackTime) || '0:00'}
 
             <SonataSlider onChange={handleTrackTimeChange}
                           onChangeCommitted={handleTrackTimeChangeCommitted}
@@ -77,13 +78,4 @@ export function Timeline({duration, playerControls, onTimeUpdateRequested}: Prop
             {millisToMinutesAndSeconds(duration)}
         </Box>
     );
-
-    function millisToMinutesAndSeconds(millis?: number | null): string {
-        if (millis) {
-            const minutes = Math.floor(millis / 60000);
-            const seconds = ((millis % 60000) / 1000).toFixed(0);
-            return minutes + ":" + (parseInt(seconds) < 10 ? '0' : '') + seconds;
-        }
-        return '0:00'
-    }
 };

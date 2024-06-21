@@ -2,12 +2,16 @@ import * as React from 'react';
 import {Box, Button} from "@mui/material";
 import {Track} from "../model/Track";
 import {PlayArrow, PlayCircle} from "@mui/icons-material";
+import {ButtonProps} from "@mui/material/Button/Button";
+import {BoxProps} from "@mui/material/Box/Box";
 
 type Props = {
+    buttonProps?: ButtonProps,
+    boxProps?: BoxProps,
     onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-export const PlayButton = (props: Props) => {
+export const PlayButton = ({onClick, boxProps, buttonProps}: Props) => {
     return (
         <Box
             sx={{
@@ -16,6 +20,8 @@ export const PlayButton = (props: Props) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                width: 48,
+                height: 48,
                 backgroundColor: '#4CAF50',
                 padding: 0,
                 boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
@@ -23,6 +29,7 @@ export const PlayButton = (props: Props) => {
                 opacity: 1,
                 scale: 1.1,
             }}
+            {...boxProps}
         >
             <Button
                 sx={{
@@ -30,7 +37,8 @@ export const PlayButton = (props: Props) => {
                     minHeight: 0,
                     padding: 0,
                 }}
-                onClick={props.onClick}
+                onClick={onClick}
+                {...buttonProps}
             >
                 <PlayArrow sx={{ fontSize: 32, color: 'black'}}/>
             </Button>

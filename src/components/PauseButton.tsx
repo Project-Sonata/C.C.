@@ -1,12 +1,16 @@
 import * as React from 'react';
 import {Box, Button} from "@mui/material";
 import {Pause} from "@mui/icons-material";
+import {ButtonProps} from "@mui/material/Button/Button";
+import {BoxProps} from "@mui/material/Box/Box";
 
 type Props = {
+    buttonProps?: ButtonProps,
+    boxProps?: BoxProps,
     onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-export const PauseButton = (props: Props) => {
+export const PauseButton = ({onClick, buttonProps, boxProps}: Props) => {
 
     return (
         <Box
@@ -15,6 +19,8 @@ export const PauseButton = (props: Props) => {
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
+                width: 48,
+                height: 48,
                 justifyContent: 'center',
                 backgroundColor: '#4CAF50',
                 padding: 0,
@@ -23,6 +29,7 @@ export const PauseButton = (props: Props) => {
                 opacity: 1,
                 scale: 1.1,
             }}
+            {...boxProps}
         >
             <Button
                 sx={{
@@ -30,7 +37,8 @@ export const PauseButton = (props: Props) => {
                     minHeight: 0,
                     padding: 0,
                 }}
-                onClick={props.onClick}
+                onClick={onClick}
+                {...buttonProps}
             >
                 <Pause sx={{ fontSize: 32, color: 'black'}}/>
             </Button>

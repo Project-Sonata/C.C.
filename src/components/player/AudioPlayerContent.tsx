@@ -8,11 +8,19 @@ import {Track} from "../../model/Track";
 import {Timeline} from "../Timeline";
 import {PlayerOperations} from "../PlayerOperations";
 import {AudioControls} from "../AudioControls";
+import useQueue from "../../hooks/useQueue";
+import useOnPlay from "../../hooks/useOnPlay";
 
 const uris = new Map();
 
-uris.set('123', "./test.mp3",)
-uris.set('1234', "./test2.mp3")
+uris.set('123', "/test.mp3",)
+uris.set('1234', "/test2.mp3")
+uris.set('1235', "/test3.mp3")
+uris.set('04nJixim5a0MAz3PGiVID1', "/test4.mp3")
+uris.set('1237', "/test5.mp3")
+uris.set('1238', "/test6.mp3")
+uris.set('1239', "/test7.mp3")
+uris.set('miku123', "/test8.mp3")
 
 
 type AudioPlayerContentProps = {
@@ -22,14 +30,15 @@ type AudioPlayerContentProps = {
 
 function AudioPlayerContent({song, isActive}: AudioPlayerContentProps) {
     const player = usePlayer()
-    const DEFAULT_VOLUME = 0.2;
+    const queue = useQueue()
+
     const [isPlaying, setIsPlaying] = useState(isActive)
+    const [volume, setVolume] = useState(0.5)
 
     const [play, {pause, sound, duration}] = useSound(
         uris.get(player.activeId),
         {
-            volume: DEFAULT_VOLUME,
-            onend: () => setIsPlaying(false),
+            onend: () => onPlayNext(),
             format: ['mp3']
         }
     );
@@ -37,6 +46,11 @@ function AudioPlayerContent({song, isActive}: AudioPlayerContentProps) {
     useEffect(() => {
         player.setIsActive(isPlaying)
     }, [isPlaying]);
+
+    useEffect(() => {
+        setVolume(player.volume)
+        sound?.volume(player.volume)
+    }, [player.volume])
 
     useEffect(() => {
         if (isActive) {
@@ -81,10 +95,27 @@ function AudioPlayerContent({song, isActive}: AudioPlayerContentProps) {
     }
 
     function onPlayNext() {
-
+        const nextTrack = queue.next()
+        if (!nextTrack) {
+            setIsPlaying(false)
+            player.setContext(undefined)
+            return;
+        }
+        player.setId(nextTrack.id)
+        player.setCurrentTrack(nextTrack)
+        player.setIsActive(true)
     }
 
     function onPlayPrevious() {
+        const previous = queue.previous()
+
+        if (!previous) {
+            setIsPlaying(false)
+            return;
+        }
+        player.setId(previous.id)
+        player.setCurrentTrack(previous)
+        player.setIsActive(true)
 
     }
 
@@ -105,7 +136,7 @@ function AudioPlayerContent({song, isActive}: AudioPlayerContentProps) {
                   alignContent="center"
                   spacing={0}
                   item xs={12} md={4}>
-                <AudioControls isPlaying={isPlaying} onPlay={onPlay} onPause={onPause}/>
+                <AudioControls onNext={onPlayNext} onPrev={onPlayPrevious} isPlaying={isPlaying} onPlay={onPlay} onPause={onPause}/>
 
                 <Grid container>
                     <Timeline duration={duration}
@@ -115,7 +146,7 @@ function AudioPlayerContent({song, isActive}: AudioPlayerContentProps) {
             </Grid>
             {/*Player operations on left side, change active device, volume, fullscreen, etc*/}
             <Grid container xs={12} md={4}>
-                <PlayerOperations volume={DEFAULT_VOLUME} playerControls={sound}/>
+                <PlayerOperations volume={volume} playerControls={sound}/>
             </Grid>
         </Grid>
     );

@@ -9,6 +9,8 @@ import Divider from '@mui/material/Divider';
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import SidebarButtonItem from "./SidebarButtonItem";
+import {LibraryMusicRounded} from "@mui/icons-material";
+import {Library} from "./Library";
 
 const drawerWidth = 240;
 
@@ -26,8 +28,6 @@ const Drawer = styled(MuiDrawer)(
     ({theme}) => ({
         width: drawerWidth,
         flexShrink: 0,
-        // hardcoded but i don't give a shit how to fix this stuff
-        height: "93%",
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
         ...openedMixin(theme),
@@ -39,7 +39,7 @@ export default function MiniDrawer() {
     const open = true;
 
     return (
-        <Box sx={{display: 'flex', height: "full"}}>
+        <Box sx={{height: 'fit-content'}}>
             <CssBaseline/>
             <Drawer variant="permanent" anchor={"left"} open={open} sx={{
                 display: "flex"
@@ -56,6 +56,11 @@ export default function MiniDrawer() {
                     <SidebarButtonItem text={"Search"} link={"/search"} Icon={SearchIcon}/>
                 </List>
                 <Divider/>
+                <Box>
+                    <List>
+                        <Library/>
+                    </List>
+                </Box>
             </Drawer>
         </Box>
     );
