@@ -45,16 +45,6 @@ export function SongCard({track, isPlaying}: Props) {
 
     return (
         <Box>
-            {/*<TrackMenu track={track}*/}
-            {/*           menuProps={{*/}
-            {/*               open: contextMenu !== null,*/}
-            {/*               onClose: handleClose,*/}
-            {/*               anchorReference: "anchorPosition",*/}
-            {/*               anchorPosition: contextMenu !== null*/}
-            {/*                   ? {top: contextMenu.mouseY, left: contextMenu.mouseX}*/}
-            {/*                   : undefined*/}
-            {/*           }}*/}
-            {/*           handleClose={handleClose}>*/}
                 <Box
                     onMouseEnter={() => setShowPlayButton(true)}
                     onMouseLeave={() => setShowPlayButton(false)}

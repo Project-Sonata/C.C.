@@ -27,7 +27,6 @@ export const TrackMenu = ({track, handleClose, menuProps, children}: Props) => {
     const [playlists, setPlaylists] = useState<Playlist[]>([])
 
     const handleAddToQueue = () => {
-        console.log('hello')
         queue.add(track)
         handleClose()
     };

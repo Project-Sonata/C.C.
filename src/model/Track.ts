@@ -1,5 +1,6 @@
 import {Author} from "./Author";
 import {Album} from "./Album";
+import {PlayableItem, PlayableItemType} from "./PlayableItem";
 
 export interface Track {
     id: string,
@@ -9,4 +10,5 @@ export interface Track {
     album: Album,
     durationMs: number,
     context: string
+
 }

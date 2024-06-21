@@ -1,5 +1,6 @@
 import {Devices} from "./Devices";
 import {PlayableItem} from "./PlayableItem";
+import {Track} from "./Track";
 
 /**
  * Abstract event that received when player is updated
@@ -24,6 +25,7 @@ export interface CurrentPlayerState {
     progressMs: number; // Progress in milliseconds
     devices: Devices; // Devices information
     playingItem: PlayableItem; // Currently playing item
+    volume: number,
 }
 
 export enum RepeatState {

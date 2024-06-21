@@ -32,10 +32,10 @@ const Layout = ({children}: any) => {
 };
 
 function App() {
-    // const currentDevice = useCurrentDevice();
-    // const [onConnectDevice, onDisconnectRequest] = useConnectDevice(currentDevice)
+    const currentDevice = useCurrentDevice();
+    const [onConnectDevice, onDisconnectRequest] = useConnectDevice(currentDevice)
     const initialized = useRef(false)
-
+    //
     // useEffect(() => {
     //     if (!initialized.current) {
     //         initialized.current = true;

@@ -9,16 +9,18 @@ import {Timeline} from "../Timeline";
 import {PlayerOperations} from "../PlayerOperations";
 import {AudioControls} from "../AudioControls";
 import useQueue from "../../hooks/useQueue";
+import useOnPlay from "../../hooks/useOnPlay";
 
 const uris = new Map();
 
 uris.set('123', "/test.mp3",)
 uris.set('1234', "/test2.mp3")
 uris.set('1235', "/test3.mp3")
-uris.set('1236', "/test4.mp3")
+uris.set('04nJixim5a0MAz3PGiVID1', "/test4.mp3")
 uris.set('1237', "/test5.mp3")
 uris.set('1238', "/test6.mp3")
 uris.set('1239', "/test7.mp3")
+uris.set('miku123', "/test8.mp3")
 
 
 type AudioPlayerContentProps = {
@@ -29,13 +31,13 @@ type AudioPlayerContentProps = {
 function AudioPlayerContent({song, isActive}: AudioPlayerContentProps) {
     const player = usePlayer()
     const queue = useQueue()
-    const DEFAULT_VOLUME = 0.2;
+
     const [isPlaying, setIsPlaying] = useState(isActive)
+    const [volume, setVolume] = useState(0.5)
 
     const [play, {pause, sound, duration}] = useSound(
         uris.get(player.activeId),
         {
-            volume: DEFAULT_VOLUME,
             onend: () => onPlayNext(),
             format: ['mp3']
         }
@@ -44,6 +46,11 @@ function AudioPlayerContent({song, isActive}: AudioPlayerContentProps) {
     useEffect(() => {
         player.setIsActive(isPlaying)
     }, [isPlaying]);
+
+    useEffect(() => {
+        setVolume(player.volume)
+        sound?.volume(player.volume)
+    }, [player.volume])
 
     useEffect(() => {
         if (isActive) {
@@ -139,7 +146,7 @@ function AudioPlayerContent({song, isActive}: AudioPlayerContentProps) {
             </Grid>
             {/*Player operations on left side, change active device, volume, fullscreen, etc*/}
             <Grid container xs={12} md={4}>
-                <PlayerOperations volume={DEFAULT_VOLUME} playerControls={sound}/>
+                <PlayerOperations volume={volume} playerControls={sound}/>
             </Grid>
         </Grid>
     );
