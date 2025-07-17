@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../sonata-accounts.iml" filepath="$PROJECT_DIR$/../sonata-accounts.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../sonata-frontend.iml" filepath="$PROJECT_DIR$/../sonata-frontend.iml" />
     </modules>
   </component>
 </project>
