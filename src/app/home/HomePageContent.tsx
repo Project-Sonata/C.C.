@@ -5,6 +5,7 @@ import {Box, Grid, Typography} from "@mui/material";
 import usePlayer from "../../hooks/usePlayer";
 import {Playlist} from "../../model/Playlist";
 import {PlaylistCard} from "../../components/PlaylistCard";
+import RecentlyPlayedCard, {Type} from "../../components/RecentlyPlayedItem";
 
 type Props = {
     tracks: Track[],
@@ -22,14 +23,23 @@ export const HomePageContent = (props: Props) => {
     }
     return (
         <Box>
-            <Grid container spacing={2}>
-                {props.tracks.map(
-                    track =>
-                        <Grid key={track.id} item xs={2}>
-                            <SongCard track={track} isPlaying={player.activeId === track.id && player.isActive}/>
+            <Box sx={{ pt: 2, px: 2 }}>
+                <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                    Recently Played
+                </Typography>
+                <Grid container spacing={2}>
+                    {props.tracks.map(track => (
+                        <Grid key={track.id} item xs={12} sm={6} md={3}>
+                            <RecentlyPlayedCard name={track.album.name}
+                                                imageUrl={track.imageUrl}
+                                                type={Type.ALBUM}
+                                                tracks={[track]}
+                                                id={track.album.id}
+                                                contextUri={`sonata:album:${track.album.id}`}/>
                         </Grid>
-                )}
-            </Grid>
+                    ))}
+                </Grid>
+            </Box>
             <Box>
                 <Typography>Playlists you created</Typography>
                 <Grid container spacing={2}>
