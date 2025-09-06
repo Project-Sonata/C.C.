@@ -4,7 +4,7 @@ export interface Playlist {
     id: string,
     name: string,
     description: string,
-    image: string,
+    image: string | undefined,
     tracks: Track[]
     context: string,
 }

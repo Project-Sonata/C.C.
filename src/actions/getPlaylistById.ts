@@ -18,7 +18,7 @@ export default async  function getPlaylistById(playlistId: string): Promise<Play
         .then(body => {
             const result = body as Playlist;
             result.tracks = []
-            result.image = body.images.images[0].url
+            result.image = body.images.images[0]?.url
             console.log(result)
             return result;
         })

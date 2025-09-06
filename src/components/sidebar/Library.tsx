@@ -1,17 +1,26 @@
-// @flow
 import * as React from 'react';
-import {Box} from "@mui/material";
-import {LibraryMusicRounded} from "@mui/icons-material";
+import {
+    Box,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText
+} from "@mui/material";
+import {
+    LibraryMusicRounded,
+    Add as AddIcon,
+} from "@mui/icons-material";
 import SidebarButtonItem from "./SidebarButtonItem";
 import {LibraryMenu} from "./LibraryMenu";
+import {useNavigate} from "react-router-dom";
+import createPlaylist, {CreatePlaylistInfo} from "../../actions/createPlaylist";
 
-type Props = {};
-
-export const Library = (props: Props) => {
+export const Library = () => {
     const [contextMenu, setContextMenu] = React.useState<{
         mouseX: number;
         mouseY: number;
     } | null>(null);
+
+    const navigate = useNavigate();
 
     const handleContextMenu = (event: React.MouseEvent) => {
         event.preventDefault();
@@ -21,8 +30,7 @@ export const Library = (props: Props) => {
                     mouseX: event.clientX + 2,
                     mouseY: event.clientY - 6,
                 }
-                :
-                null,
+                : null,
         );
     };
 
@@ -30,10 +38,19 @@ export const Library = (props: Props) => {
         setContextMenu(null);
     };
 
+    const handleCreatePlaylist = () => {
+        const playlist: CreatePlaylistInfo = {
+            name: "My cool playlist"
+        }
+        createPlaylist(playlist)
+            .then(result => result.json())
+            .then(data => navigate(`/playlist/${data.id}`));
+    };
 
     return (
-        <Box onContextMenu={handleContextMenu}>
+        <Box onContextMenu={handleContextMenu} px={1}>
             <SidebarButtonItem text={"Library"} link={"/library"} Icon={LibraryMusicRounded}/>
+
             <LibraryMenu menuProps={{
                 open: contextMenu !== null,
                 onClose: handleClose,
@@ -42,6 +59,12 @@ export const Library = (props: Props) => {
                     ? {top: contextMenu.mouseY, left: contextMenu.mouseX}
                     : undefined
             }}/>
+
+            {/* Create Playlist */}
+            <ListItemButton onClick={handleCreatePlaylist}>
+                <ListItemIcon><AddIcon/></ListItemIcon>
+                <ListItemText primary="Create Playlist"/>
+            </ListItemButton>
         </Box>
     );
 };

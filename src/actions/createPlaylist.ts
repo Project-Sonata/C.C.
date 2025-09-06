@@ -1,4 +1,4 @@
-interface CreatePlaylistInfo {
+export interface CreatePlaylistInfo {
     name: string
 }
 
