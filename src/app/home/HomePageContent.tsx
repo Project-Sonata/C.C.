@@ -40,8 +40,10 @@ export const HomePageContent = (props: Props) => {
                     ))}
                 </Grid>
             </Box>
-            <Box>
-                <Typography>Playlists you created</Typography>
+            <Box sx={{ pt: 2, px: 2, mt: 4 }}>
+                <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                    Playlists you created
+                </Typography>
                 <Grid container spacing={2}>
                     {
                         props.playlists.map(
