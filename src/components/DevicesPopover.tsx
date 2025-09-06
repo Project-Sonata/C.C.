@@ -40,7 +40,7 @@ export const DevicesPopover = ({anchorEl, onClose, show}: Props) => {
                     :
                     <Box>
                         <Stack direction="row" padding={"12px"} gap={1}>
-                            <Equalizer height={'40px'} width={'30px'} barWidth={'4px'}/>
+                            <Equalizer size="medium"/>
                             <Stack direction="column" alignItems="flex-start" spacing={'1px'}>
                                 <Grid container>
                                     <Typography fontSize={15} padding={'0'}>Current Device</Typography>
@@ -70,7 +70,7 @@ const SonataConnectInfo = () => {
         }}>
             <Box>
                 <Stack direction="row" alignItems="center" gap={1}>
-                    <Equalizer height={'40px'} width={'30px'} barWidth={'4px'}/>
+                    <Equalizer size="medium"/>
                     <Stack direction="column" alignItems="flex-start" spacing={'1px'}>
                         <Grid container>
                             <Typography fontSize={15} padding={'0'}>Current Device</Typography>

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {Track} from "../../model/Track";
-import {SongCard} from "../../components/song/SongCard";
 import {Box, Grid, Typography} from "@mui/material";
 import usePlayer from "../../hooks/usePlayer";
 import {Playlist} from "../../model/Playlist";
@@ -23,8 +22,8 @@ export const HomePageContent = (props: Props) => {
     }
     return (
         <Box>
-            <Box sx={{ pt: 2, px: 2 }}>
-                <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+            <Box sx={{pt: 2, px: 2}}>
+                <Typography variant="h6" sx={{mb: 2, fontWeight: 600}}>
                     Recently Played
                 </Typography>
                 <Grid container spacing={2}>
@@ -35,7 +34,8 @@ export const HomePageContent = (props: Props) => {
                                                 type={Type.ALBUM}
                                                 tracks={[track]}
                                                 id={track.album.id}
-                                                contextUri={`sonata:album:${track.album.id}`}/>
+                                                contextUri={`sonata:album:${track.album.id}`}
+                                                isPlaying={player.context === `sonata:album:${track.album.id}` && player.isActive}/>
                         </Grid>
                     ))}
                 </Grid>
@@ -50,7 +50,7 @@ export const HomePageContent = (props: Props) => {
                                     <PlaylistCard playlist={playlist}
                                                   isPlaying={player.context === playlist.context && player.isActive}/>
                                 </Grid>
-                            )
+                        )
                     }
                 </Grid>
             </Box>

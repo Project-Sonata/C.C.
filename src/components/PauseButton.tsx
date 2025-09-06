@@ -1,16 +1,26 @@
 import * as React from 'react';
-import {Box, Button} from "@mui/material";
-import {Pause} from "@mui/icons-material";
-import {ButtonProps} from "@mui/material/Button/Button";
-import {BoxProps} from "@mui/material/Box/Box";
+import { Box, Button } from "@mui/material";
+import { Pause } from "@mui/icons-material";
+import { ButtonProps } from "@mui/material/Button/Button";
+import { BoxProps } from "@mui/material/Box/Box";
+
+type Size = 'small' | 'medium' | 'large';
 
 type Props = {
-    buttonProps?: ButtonProps,
-    boxProps?: BoxProps,
+    size?: Size;
+    buttonProps?: ButtonProps;
+    boxProps?: BoxProps;
     onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-export const PauseButton = ({onClick, buttonProps, boxProps}: Props) => {
+const sizeMap = {
+    small: { box: 32, icon: 16 },
+    medium: { box: 48, icon: 32 },
+    large: { box: 64, icon: 48 },
+};
+
+export const PauseButton = ({ onClick, buttonProps, boxProps, size = 'medium' }: Props) => {
+    const { box: boxSize, icon: iconSize } = sizeMap[size];
 
     return (
         <Box
@@ -19,15 +29,13 @@ export const PauseButton = ({onClick, buttonProps, boxProps}: Props) => {
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
-                width: 48,
-                height: 48,
                 justifyContent: 'center',
+                width: boxSize,
+                height: boxSize,
                 backgroundColor: '#4CAF50',
                 padding: 0,
                 boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-                transform: 'translateY(25%)',
                 opacity: 1,
-                scale: 1.1,
             }}
             {...boxProps}
         >
@@ -36,11 +44,16 @@ export const PauseButton = ({onClick, buttonProps, boxProps}: Props) => {
                     minWidth: 0,
                     minHeight: 0,
                     padding: 0,
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                 }}
                 onClick={onClick}
                 {...buttonProps}
             >
-                <Pause sx={{ fontSize: 32, color: 'black'}}/>
+                <Pause sx={{ fontSize: iconSize, color: 'black' }} />
             </Button>
         </Box>
     );
