@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CSSObject, styled, Theme } from '@mui/material/styles';
+import {CSSObject, styled, Theme} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -11,7 +11,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import SidebarButtonItem from "./SidebarButtonItem";
-import { Library } from "./Library";
+import {Library} from "./Library";
 import {useState} from "react";
 
 const drawerWidth = 240;
@@ -35,8 +35,8 @@ const closedMixin = (theme: Theme): CSSObject => ({
     overflowX: 'hidden',
 });
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
+const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
+    ({theme, open}) => ({
         width: drawerWidth,
         flexShrink: 0,
         whiteSpace: 'nowrap',
@@ -51,7 +51,7 @@ export default function Sidebar() {
     const [open, setOpen] = useState(false);
 
     return (
-        <Box sx={{ position: 'relative' }}>
+        <Box sx={{position: 'relative'}}>
             <Drawer
                 variant="permanent"
                 sx={{
@@ -69,9 +69,9 @@ export default function Sidebar() {
                     },
                 }}
             >
-                <Box display="flex" alignItems="center" px={1} py={2} gap={1}>
-                    <IconButton onClick={() => setOpen(!open)} sx={{ color: 'white' }}>
-                        <MenuIcon />
+                <Box display="flex" alignItems="center" px={2} py={2} gap={1}>
+                    <IconButton onClick={() => setOpen(!open)} sx={{color: 'white'}}>
+                        <MenuIcon/>
                     </IconButton>
                     {open && (
                         <Typography variant="h6" noWrap>
@@ -80,14 +80,14 @@ export default function Sidebar() {
                     )}
                 </Box>
 
-                <Divider />
+                <Divider/>
                 <List>
-                    <SidebarButtonItem text="Home" link="/" Icon={HomeIcon} />
-                    <SidebarButtonItem text="Search" link="/search" Icon={SearchIcon} />
+                    <SidebarButtonItem text="Home" link="/" Icon={HomeIcon}/>
+                    <SidebarButtonItem text="Search" link="/search" Icon={SearchIcon}/>
                 </List>
-                <Divider />
+                <Divider/>
                 <List>
-                    <Library />
+                    <Library/>
                 </List>
             </Drawer>
         </Box>
