@@ -69,7 +69,6 @@ export default function Sidebar() {
                     },
                 }}
             >
-                {/* Top bar with burger + optional text */}
                 <Box display="flex" alignItems="center" px={1} py={2} gap={1}>
                     <IconButton onClick={() => setOpen(!open)} sx={{ color: 'white' }}>
                         <MenuIcon />
