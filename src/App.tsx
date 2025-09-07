@@ -8,27 +8,47 @@ import HomePage from "./app/home/HomePage";
 import {useCurrentDevice} from "./hooks/useCurrentDevice";
 import {useConnectDevice} from "./hooks/useConnectDevice";
 import Queue from "./app/Queue";
-import {Box} from "@mui/material";
+import {AppBar, Box, Toolbar} from "@mui/material";
 import {PlaylistPage} from "./app/playlist/PlaylistPage";
 import {ProtectedRoute} from "./components/ProtectedRoute";
+import {ProfileCircle} from "./components/ProfileCircle";
 
-const Layout = ({children}: any) => {
+const Layout = () => {
+    const user = {
+        name: "Odeyalo",
+        avatarUrl: "https://i.pinimg.com/736x/16/76/32/167632879f6b035992e0a0fad48df605.jpg", // or your avatar URL
+    };
+
     return (
+        <Box sx={{ display: "flex", position: "relative", height: "100vh" }}>
+            {/* Sidebar */}
+            <MiniDrawer />
 
-        <Box sx={{
-            display: 'flex', position: 'relative',
-            maxHeight: '100vh',
-            flexGrow: 1,
-        }}>
-            <MiniDrawer/>
-            {/* Main content */}
-            <main style={{flexGrow: 1,width:"calc(100vh - 240px)", overflow: 'auto', height: 'calc(100vh - 100px)'}}>
-                <Outlet/>
-            </main>
-            <AudioPlayer/>
+            {/* Main Content Area */}
+            <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", height: "100%" }}>
+
+                {/* Top Bar */}
+                <AppBar position="static" sx={{ bgcolor: "#121212", boxShadow: "none" }}>
+                    <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
+                        <ProfileCircle
+                            userName={user.name}
+                            avatarUrl={user.avatarUrl}
+                            onLogout={() => console.log("Logout")}
+                        />
+                    </Toolbar>
+                </AppBar>
+
+                {/* Page Content */}
+                <Box sx={{ flexGrow: 1, overflow: "auto", p: 2 }}>
+                    <Outlet />
+                </Box>
+
+                {/* Audio Player */}
+                <AudioPlayer />
+            </Box>
         </Box>
     );
-};
+}
 
 function App() {
     const currentDevice = useCurrentDevice();
