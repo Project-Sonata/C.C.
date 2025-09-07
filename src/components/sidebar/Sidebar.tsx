@@ -1,9 +1,9 @@
 import * as React from 'react';
+import {useState} from 'react';
 import {CSSObject, styled, Theme} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
-import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
@@ -12,7 +12,6 @@ import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import SidebarButtonItem from "./SidebarButtonItem";
 import {Library} from "./Library";
-import {useState} from "react";
 
 const drawerWidth = 240;
 const collapsedWidth = 60;

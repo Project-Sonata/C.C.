@@ -24,7 +24,7 @@ const Layout = () => {
             <MiniDrawer />
 
             <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-x                <Box
+                <Box
                     sx={{
                         display: "flex",
                         justifyContent: "space-between",

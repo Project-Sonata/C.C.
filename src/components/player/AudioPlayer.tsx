@@ -40,8 +40,9 @@ function AudioPlayer() {
             sx={{
                 position: "fixed",
                 bottom: 0,
+                left: 0,                  // start from the very left
+                width: "100%",            // full width
                 height: "100px",
-                width: "100%",
                 backgroundColor: "black",
                 pt: 1,
                 pb: 1,
@@ -52,11 +53,7 @@ function AudioPlayer() {
                 zIndex: 1200,
             }}
         >
-            <AudioPlayerContent
-                key={player.activeId + queue.currentIndex}
-                song={currentTrack}
-                isActive={player.isActive}
-            />
+            <AudioPlayerContent key={player.activeId + queue.currentIndex} song={currentTrack} isActive={player.isActive} />
         </Box>
     );
 }
