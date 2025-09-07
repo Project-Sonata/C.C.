@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Avatar, IconButton, Box, MenuItem, Paper, ClickAwayListener, Popper, Grow } from "@mui/material";
+import {Avatar, Box, IconButton, Menu, MenuItem, Tooltip} from "@mui/material";
 
 type Props = {
     userName: string;
@@ -8,18 +8,12 @@ type Props = {
 };
 
 export const ProfileCircle = ({ userName, avatarUrl, onLogout }: Props) => {
-    const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-    const handleToggle = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-        setOpen(prev => !prev);
-    };
-
-    const handleClose = () => setOpen(false);
+    const handleOpen = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
+    const handleClose = () => setAnchorEl(null);
 
     const handleProfile = () => {
-        console.log("Profile clicked");
         handleClose();
     };
 
@@ -29,25 +23,67 @@ export const ProfileCircle = ({ userName, avatarUrl, onLogout }: Props) => {
     };
 
     return (
-        <ClickAwayListener onClickAway={handleClose}>
-            <Box>
-                <IconButton onClick={handleToggle} sx={{ p: 0 }}>
+        <Box>
+            <Tooltip title={userName}>
+                <IconButton onClick={handleOpen} sx={{ p: 0 }}>
                     <Avatar src={avatarUrl}>{!avatarUrl && userName[0]}</Avatar>
                 </IconButton>
+            </Tooltip>
 
-                <Popper open={open} anchorEl={anchorEl} placement="bottom-end" transition disablePortal>
-                    {({ TransitionProps }) => (
-                        <Grow {...TransitionProps} style={{ transformOrigin: "top right" }}>
-                            <Paper elevation={3}>
-                                <Box display="flex" flexDirection="column">
-                                    <MenuItem onClick={handleProfile}>Profile</MenuItem>
-                                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                                </Box>
-                            </Paper>
-                        </Grow>
-                    )}
-                </Popper>
-            </Box>
-        </ClickAwayListener>
+            <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                transformOrigin={{ vertical: "top", horizontal: "right" }}
+                disableAutoFocusItem
+                disableEnforceFocus
+                disableRestoreFocus
+                MenuListProps={{ disablePadding: true }}
+                PaperProps={{
+                    sx: {
+                        pointerEvents: "auto",
+                        bgcolor: "#333", // dark grey background
+                        borderRadius: 2,
+                        mt: 1, // add margin-top to create space between avatar and menu
+                    },
+                }}
+            >
+                <MenuItem
+                    onClick={handleProfile}
+                    sx={{
+                        py: 2,
+                        px: 3,
+                        fontSize: "1rem",
+                        minWidth: 180,
+                        color: "white",
+                        transition: "all 0.2s ease",
+                        "&:hover": {
+                            bgcolor: "#555",
+                            textDecoration: "underline",
+                        },
+                    }}
+                >
+                    Profile
+                </MenuItem>
+                <MenuItem
+                    onClick={handleLogout}
+                    sx={{
+                        py: 2,
+                        px: 3,
+                        fontSize: "1rem",
+                        minWidth: 180,
+                        color: "white",
+                        transition: "all 0.2s ease",
+                        "&:hover": {
+                            bgcolor: "#555",
+                            textDecoration: "underline",
+                        },
+                    }}
+                >
+                    Logout
+                </MenuItem>
+            </Menu>
+        </Box>
     );
 };

@@ -12,7 +12,6 @@ type Props = {};
 export default function HomePage(props: Props) {
     const [songs, setSongs] = useState<Track[]>([]);
     const [playlists, setPlaylists] = useState<Playlist[]>([]);
-    console.log("Home page!")
 
     useEffect(() => {
         getSongsForUser('123')
