@@ -19,12 +19,9 @@ export const CreatedPlaylistsSection = ({playlists}: Props) => {
                 Playlists you created
             </Typography>
             <Grid container spacing={2}>
-                {playlists.map(playlist => (
-                    <Grid key={playlist.id} item xs={2}>
-                        <PlaylistCard
-                            playlist={playlist}
-                            isPlaying={player.context === playlist.context && player.isActive}
-                        />
+                {playlists.map(p => (
+                    <Grid key={p.id} item xs={6} sm={4} md={3} lg={2}>
+                        <PlaylistCard playlist={p} isPlaying={player.context === p.context && player.isActive} />
                     </Grid>
                 ))}
             </Grid>
