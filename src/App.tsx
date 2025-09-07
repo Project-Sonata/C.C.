@@ -12,6 +12,7 @@ import {Box, Typography} from "@mui/material";
 import {PlaylistPage} from "./app/playlist/PlaylistPage";
 import {ProtectedRoute} from "./components/ProtectedRoute";
 import {ProfileCircle} from "./components/ProfileCircle";
+import {ProfilePage} from "./components/ProfilePage";
 
 const Layout = () => {
     const user = {
@@ -77,6 +78,7 @@ function App() {
                         <Route path="/search" element={<Search />} />
                         <Route path="/queue" element={<Queue />} />
                         <Route path="/playlist/:playlistId" element={<PlaylistPage />} />
+                        <Route path="/user/:userId" element={<ProfilePage/>} />
                     </Route>
                 </Route>
 
