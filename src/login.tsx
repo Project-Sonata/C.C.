@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import {Box, Button, Checkbox, FormControlLabel, Grid, TextField, Typography} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 function Login() {
     const [checked, setChecked] = useState(false);
-
+    const navigate = useNavigate()
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setChecked(event.target.checked);
     };
@@ -18,6 +19,9 @@ function Login() {
             password: data.get('password'),
             remember: checked
         });
+
+        localStorage.setItem("authToken", "aboba")
+        navigate("/")
     }
 
     return (

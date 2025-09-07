@@ -10,7 +10,7 @@ type Props = {
 
 export const RecentlyPlayedSection = ({tracks}: Props) => {
     const player = usePlayer();
-
+    console.log(tracks.length)
     if (tracks.length === 0) return null;
 
     return (

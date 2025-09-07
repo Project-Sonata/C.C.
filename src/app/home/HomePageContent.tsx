@@ -14,7 +14,7 @@ export const HomePageContent = ({tracks, playlists}: Props) => {
     if (tracks.length === 0 && playlists.length === 0) {
         return <h1>No content!</h1>;
     }
-
+    console.log("Home page!")
     return (
         <Box>
             <RecentlyPlayedSection tracks={tracks}/>
