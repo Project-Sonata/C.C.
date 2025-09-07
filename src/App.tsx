@@ -8,7 +8,7 @@ import HomePage from "./app/home/HomePage";
 import {useCurrentDevice} from "./hooks/useCurrentDevice";
 import {useConnectDevice} from "./hooks/useConnectDevice";
 import Queue from "./app/Queue";
-import {AppBar, Box, Toolbar} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import {PlaylistPage} from "./app/playlist/PlaylistPage";
 import {ProtectedRoute} from "./components/ProtectedRoute";
 import {ProfileCircle} from "./components/ProfileCircle";
@@ -20,30 +20,30 @@ const Layout = () => {
     };
 
     return (
-        <Box sx={{ display: "flex", position: "relative", height: "100vh" }}>
-            {/* Sidebar */}
+        <Box sx={{ display: "flex", maxHeight: "100vh", flexGrow: 1, position: "relative" }}>
             <MiniDrawer />
 
-            {/* Main Content Area */}
-            <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", height: "100%" }}>
+            <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+x                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        px: 3,
+                        py: 2,
+                        bgcolor: "background.paper",
+                    }}
+                >
+                    <Typography variant="h5" fontWeight={600}>
+                        Welcome back, {user.name}
+                    </Typography>
+                    <ProfileCircle userName={user.name} avatarUrl={user.avatarUrl} onLogout={() => console.log("logout")} />
+                </Box>
 
-                {/* Top Bar */}
-                <AppBar position="static" sx={{ bgcolor: "#121212", boxShadow: "none" }}>
-                    <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
-                        <ProfileCircle
-                            userName={user.name}
-                            avatarUrl={user.avatarUrl}
-                            onLogout={() => console.log("Logout")}
-                        />
-                    </Toolbar>
-                </AppBar>
-
-                {/* Page Content */}
-                <Box sx={{ flexGrow: 1, overflow: "auto", p: 2 }}>
+                <Box component="main" sx={{ flexGrow: 1, overflow: "auto", px: 3, pb: 2 }}>
                     <Outlet />
                 </Box>
 
-                {/* Audio Player */}
                 <AudioPlayer />
             </Box>
         </Box>
