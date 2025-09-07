@@ -6,6 +6,7 @@ import {Track} from "../model/Track";
 import {PauseButton} from "./PauseButton";
 import useOnPause from "../hooks/useOnPause";
 import {Equalizer} from "./Equalizer";
+import {useNavigate} from "react-router-dom";
 
 interface ItemDetails {
     id: string,
@@ -14,23 +15,28 @@ interface ItemDetails {
     imageUrl: string,
     contextUri: string,
     tracks: Track[],
-
     isPlaying: boolean
 }
 
 export enum Type {
-    ALBUM = "TRACK",
+    ALBUM = "ALBUM",
     PLAYLIST = "PLAYLIST"
 }
 
-export default function RecentlyPlayedCard({imageUrl, name, contextUri, id, tracks, isPlaying}: ItemDetails) {
+export default function RecentlyPlayedCard({imageUrl, name, contextUri, id, tracks, isPlaying, type}: ItemDetails) {
     const [hover, setHover] = useState(false);
+    const navigate = useNavigate();
 
     const onPlay = useOnPlay([], contextUri);
     const onPause = useOnPause();
 
+    const handleCardClick = () => {
+        navigate(`/${type.toLowerCase()}/${id}`);
+    };
+
     return (
         <Card
+            onClick={handleCardClick}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
             sx={{
@@ -63,7 +69,7 @@ export default function RecentlyPlayedCard({imageUrl, name, contextUri, id, trac
                     isPlaying ? (
                         <PauseButton size="small" onClick={(event) => {
                             event.stopPropagation();
-                            onPause()
+                            onPause();
                         }}/>
                     ) : (
                         <PlayButton size="small" onClick={(event) => {
