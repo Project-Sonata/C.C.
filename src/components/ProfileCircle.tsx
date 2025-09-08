@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {Avatar, Box, IconButton, Menu, MenuItem, Tooltip} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 type Props = {
     userName: string;
@@ -9,11 +10,12 @@ type Props = {
 
 export const ProfileCircle = ({ userName, avatarUrl, onLogout }: Props) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
+    const navigate = useNavigate();
     const handleOpen = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
     const handleClose = () => setAnchorEl(null);
 
     const handleProfile = () => {
+        navigate("/user/123")
         handleClose();
     };
 

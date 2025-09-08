@@ -1,7 +1,7 @@
 import React from "react";
 
 type ProfileBackgroundProps = {
-    color: string; // rgb, hex, etc.
+    color: string;
     children: React.ReactNode;
 };
 
