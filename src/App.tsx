@@ -13,6 +13,7 @@ import {PlaylistPage} from "./app/playlist/PlaylistPage";
 import {ProtectedRoute} from "./components/ProtectedRoute";
 import {ProfileCircle} from "./components/ProfileCircle";
 import {ProfilePage} from "./components/ProfilePage";
+import Registration from "./components/Registration";
 
 const Layout = () => {
     const user = {
@@ -83,6 +84,7 @@ function App() {
                 </Route>
 
                 <Route path="/login" element={<Login />} />
+                <Route path="/sign-up" element={<Registration />} />
             </Routes>
         </BrowserRouter>
     );
