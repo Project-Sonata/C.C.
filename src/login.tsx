@@ -7,6 +7,7 @@ import {
     Grid,
     TextField,
     Typography,
+    Link,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./hooks/useAuth";
@@ -96,6 +97,25 @@ function Login() {
                     >
                         {loading ? "Logging in..." : "Log In"}
                     </Button>
+                </Box>
+
+                {/* Sign up link */}
+                <Box textAlign="center" sx={{ mt: 2 }}>
+                    <Link
+                        component="button"
+                        variant="body2"
+                        onClick={() => navigate("/sign-up")}
+                        sx={{
+                            color: "success.main",
+                            textDecoration: "none",
+                            fontWeight: "bold",
+                            "&:hover": {
+                                textDecoration: "underline",
+                            },
+                        }}
+                    >
+                        Don’t have an account? Sign up
+                    </Link>
                 </Box>
             </Box>
         </Box>
