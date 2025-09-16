@@ -13,7 +13,7 @@ import {PlaylistPage} from "./app/playlist/PlaylistPage";
 import {ProtectedRoute} from "./components/ProtectedRoute";
 import {ProfileCircle} from "./components/ProfileCircle";
 import {ProfilePage} from "./components/ProfilePage";
-import Registration from "./components/Registration";
+import Registration from "./components/registration/Registration";
 
 const Layout = () => {
     const user = {

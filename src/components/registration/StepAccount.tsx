@@ -1,4 +1,3 @@
-// StepAccount.tsx
 import React from "react";
 import { TextField, Grid } from "@mui/material";
 import { RegistrationData } from "./Registration";

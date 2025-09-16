@@ -1,4 +1,3 @@
-// StepTerms.tsx
 import React from "react";
 import { Box, FormControlLabel, Checkbox } from "@mui/material";
 import { RegistrationData } from "./Registration";

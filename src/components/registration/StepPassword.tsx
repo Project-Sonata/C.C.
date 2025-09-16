@@ -1,4 +1,3 @@
-// StepPassword.tsx
 import React, { useState } from "react";
 import {
     TextField,
@@ -7,7 +6,7 @@ import {
     InputAdornment,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import type { RegistrationData } from "../Registration";
+import type { RegistrationData } from "./Registration";
 
 type Props = {
     data: RegistrationData;

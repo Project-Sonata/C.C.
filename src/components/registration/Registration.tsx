@@ -7,9 +7,9 @@ import {
     Typography,
 } from "@mui/material";
 import {useNavigate} from "react-router-dom";
-import {useRegister} from "../hooks/useRegister";
+import {useRegister} from "../../hooks/useRegister";
 import {StepTerms} from "./StepTerms";
-import {StepPassword} from "./registration/StepPassword";
+import {StepPassword} from "./StepPassword";
 import {StepProfile} from "./StepProfile";
 
 export type RegistrationData = {
