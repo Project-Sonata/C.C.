@@ -1,6 +1,6 @@
 import {Device, DeviceType} from "../model/Device";
 import {SONATA_CONNECT_API} from "./api/config";
-import {secureFetch} from "./secureFetch";
+import {secureFetch} from "./api/secureFetch";
 
 
 export function useConnectDevice(device: Device) {
