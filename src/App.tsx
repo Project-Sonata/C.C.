@@ -55,23 +55,6 @@ const Layout = () => {
 }
 
 function App() {
-    const currentDevice = useCurrentDevice();
-    const [onConnectDevice, onDisconnectRequest] = useConnectDevice(currentDevice)
-    const initialized = useRef(false)
-    //
-    // useEffect(() => {
-    //     if (!initialized.current) {
-    //         initialized.current = true;
-    //         onConnectDevice()
-    //             .then(resp => console.log('connected device with status: ' + resp.status))
-    //
-    //         return () => {
-    //             onDisconnectRequest().then(() => console.log('disconnected device'))
-    //         }
-    //     }
-    //
-    // }, [])
-
     return (
         <AuthProvider>
             <BrowserRouter>

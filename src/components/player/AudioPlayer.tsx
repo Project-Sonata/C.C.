@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { Box } from "@mui/material";
 import AudioPlayerContent from "./AudioPlayerContent";
 import usePlayer from "../../hooks/usePlayer";
@@ -7,6 +7,8 @@ import useDevices from "../../hooks/useDevices";
 import getDevicesForUser from "../../actions/getDevicesForUser";
 import { Device } from "../../model/Device";
 import { usePlayerSynchronization } from "../../hooks/usePlayerSynchronization";
+import {useCurrentDevice} from "../../hooks/useCurrentDevice";
+import {useConnectDevice} from "../../hooks/useConnectDevice";
 
 function AudioPlayer() {
     const player = usePlayer();
@@ -15,6 +17,23 @@ function AudioPlayer() {
     const [devices, setDevices] = useState<Device[]>([]);
 
     const currentTrack = player.currentTrack;
+
+    const currentDevice = useCurrentDevice();
+    const [onConnectDevice, onDisconnectRequest] = useConnectDevice(currentDevice)
+    const initialized = useRef(false)
+
+    useEffect(() => {
+        if (!initialized.current) {
+            initialized.current = true;
+            onConnectDevice()
+                .then(resp => console.log('connected device with status: ' + resp.status))
+
+            return () => {
+                onDisconnectRequest().then(() => console.log('disconnected device'))
+            }
+        }
+
+    }, [])
 
     usePlayerSynchronization();
 

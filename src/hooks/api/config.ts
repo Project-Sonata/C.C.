@@ -1,0 +1,1 @@
+export const SONATA_CONNECT_API = process.env.REACT_APP_API_SONATA_CONNECT_URL
