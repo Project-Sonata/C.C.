@@ -1,9 +1,10 @@
 import { useState } from "react";
+import {RegistrationData} from "../components/registration/Registration";
 
 export type User = {
     id: string;
-    username: string;
-    avatarUrl?: string;
+    email: string;
+    avatar_url?: string;
 };
 
 export type RegisterResponse = {
@@ -44,23 +45,42 @@ export const useRegister = () => {
      * Register a new user
      * Payload contains email, password, username, birthdate, gender, agreeTerms, subscribeEmails
      */
-    const register = async (payload: any): Promise<RegisterResponse | null> => {
+    const register = async (payload: RegistrationData): Promise<RegisterResponse | null> => {
         setLoading(true);
         setError(null);
+
+        const registrationPayload = {
+            email: payload.email,
+            password: payload.password,
+            birthdate: payload.birthdate,
+            gender: payload.gender,
+            enable_notification: payload.receiveEmails
+        };
+
         try {
-            const res = await fetch("/auth/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-            });
-            const data = await res.json();
-            if (!res.ok) {
-                setError(data.message || "Registration failed");
-                setLoading(false);
-                return null;
+            // const res = await fetch(`http://localhost:8080/v1/signup/email`, {
+            //     method: "POST",
+            //     headers: { "Content-Type": "application/json" },
+            //     body: JSON.stringify(registrationPayload),
+            // });
+            // const data = await res.json();
+            // if (!res.ok) {
+            //     setError(data.message || "Registration failed");
+            //     setLoading(false);
+            //     return null;
+            // }
+            // setLoading(false);
+            // return data as RegisterResponse;
+
+            return {
+                accessToken: "token1_2",
+                refreshToken: "absent",
+                user: {
+                    email: "odeyalo@gmail.com",
+                    id: "1",
+                    avatar_url: "https://i.pinimg.com/736x/16/76/32/167632879f6b035992e0a0fad48df605.jpg"
+                }
             }
-            setLoading(false);
-            return data as RegisterResponse;
         } catch (err) {
             setLoading(false);
             setError("Registration failed");

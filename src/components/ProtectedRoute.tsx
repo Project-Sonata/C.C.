@@ -2,7 +2,7 @@ import React from "react";
 import {Navigate, Outlet} from "react-router-dom";
 
 const isAuthenticated = () => {
-    return Boolean(localStorage.getItem("authToken"));
+    return Boolean(localStorage.getItem("accessToken"));
 };
 
 export const ProtectedRoute = () => {

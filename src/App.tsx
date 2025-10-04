@@ -14,6 +14,7 @@ import {ProtectedRoute} from "./components/ProtectedRoute";
 import {ProfileCircle} from "./components/ProfileCircle";
 import {ProfilePage} from "./components/ProfilePage";
 import Registration from "./components/registration/Registration";
+import {AuthProvider} from "./context/AuthContext";
 
 const Layout = () => {
     const user = {
@@ -22,10 +23,10 @@ const Layout = () => {
     };
 
     return (
-        <Box sx={{ display: "flex", maxHeight: "100vh", flexGrow: 1, position: "relative" }}>
-            <MiniDrawer />
+        <Box sx={{display: "flex", maxHeight: "100vh", flexGrow: 1, position: "relative"}}>
+            <MiniDrawer/>
 
-            <Box sx={{ flexGrow: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+            <Box sx={{flexGrow: 1, display: "flex", flexDirection: "column", overflow: "hidden"}}>
                 <Box
                     sx={{
                         display: "flex",
@@ -39,14 +40,15 @@ const Layout = () => {
                     <Typography variant="h5" fontWeight={600}>
                         Welcome back, {user.name}
                     </Typography>
-                    <ProfileCircle userName={user.name} avatarUrl={user.avatarUrl} onLogout={() => console.log("logout")} />
+                    <ProfileCircle userName={user.name} avatarUrl={user.avatarUrl}
+                                   onLogout={() => console.log("logout")}/>
                 </Box>
 
-                <Box component="main" sx={{ flexGrow: 1, overflow: "auto", px: 3, pb: 2 }}>
-                    <Outlet />
+                <Box component="main" sx={{flexGrow: 1, overflow: "auto", px: 3, pb: 2}}>
+                    <Outlet/>
                 </Box>
 
-                <AudioPlayer />
+                <AudioPlayer/>
             </Box>
         </Box>
     );
@@ -71,22 +73,24 @@ function App() {
     // }, [])
 
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route element={<ProtectedRoute />}>
-                    <Route element={<Layout />}>
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="/search" element={<Search />} />
-                        <Route path="/queue" element={<Queue />} />
-                        <Route path="/playlist/:playlistId" element={<PlaylistPage />} />
-                        <Route path="/user/:userId" element={<ProfilePage/>} />
+        <AuthProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route element={<ProtectedRoute/>}>
+                        <Route element={<Layout/>}>
+                            <Route path="/" element={<HomePage/>}/>
+                            <Route path="/search" element={<Search/>}/>
+                            <Route path="/queue" element={<Queue/>}/>
+                            <Route path="/playlist/:playlistId" element={<PlaylistPage/>}/>
+                            <Route path="/user/:userId" element={<ProfilePage/>}/>
+                        </Route>
                     </Route>
-                </Route>
 
-                <Route path="/login" element={<Login />} />
-                <Route path="/sign-up" element={<Registration />} />
-            </Routes>
-        </BrowserRouter>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/sign-up" element={<Registration/>}/>
+                </Routes>
+            </BrowserRouter>
+        </AuthProvider>
     );
 }
 

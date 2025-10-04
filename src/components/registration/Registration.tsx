@@ -11,6 +11,7 @@ import {useRegister} from "../../hooks/useRegister";
 import {StepTerms} from "./StepTerms";
 import {StepPassword} from "./StepPassword";
 import {StepProfile} from "./StepProfile";
+import {useAuth} from "../../context/AuthContext";
 
 export type RegistrationData = {
     email: string;
@@ -37,6 +38,7 @@ const Registration = () => {
     });
 
     const navigate = useNavigate();
+    const {login} = useAuth();
     const {checkEmail, register} = useRegister();
 
     const handleNext = async () => {
@@ -49,13 +51,20 @@ const Registration = () => {
         }
 
         if (activeStep === steps.length - 1) {
-            console.log(formData)
             const resp = await register(formData);
+            console.log(resp)
             if (!resp) return;
 
             localStorage.setItem("accessToken", resp.accessToken);
-            localStorage.setItem("refreshToken", resp.refreshToken);
-            localStorage.setItem("user", JSON.stringify(resp.user));
+
+            console.log("set access token with value: " + resp.accessToken)
+
+            login({
+                email: resp.user.email,
+                id: resp.user.id,
+                avatar: resp.user.avatar_url
+            });
+
             navigate("/");
             return;
         }
