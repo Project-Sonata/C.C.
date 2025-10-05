@@ -4,7 +4,6 @@ import usePlayer, {PlayerStore} from "./usePlayer";
 
 
 function doOnPlay(player: PlayerStore, track: Track, queue: Queue, tracks: Track[]) {
-    player.setId(track.id)
     player.setCurrentTrack(track)
     player.setIsActive(true)
     queue.clear()

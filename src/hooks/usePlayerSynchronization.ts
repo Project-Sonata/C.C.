@@ -17,9 +17,12 @@ export function usePlayerSynchronization() {
     useEffect(() => {
         if (lastMessage !== null) {
             const body = parsePlayerStateDto(lastMessage.data)
-            player.setIsActive(body.getCurrentPlayerState().isPlaying)
+            const isPlaying = body.getCurrentPlayerState().isPlaying;
+            player.setIsActive(isPlaying)
 
-            onPlay(body.getCurrentPlayerState().playingItem as unknown as Track)
+            if (isPlaying) {
+                onPlay(body.getCurrentPlayerState().playingItem as unknown as Track)
+            }
 
             console.log(body.getEventType())
         }

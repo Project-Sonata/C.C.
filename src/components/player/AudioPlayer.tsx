@@ -18,41 +18,44 @@ function AudioPlayer() {
 
     const currentTrack = player.currentTrack;
 
+
     const currentDevice = useCurrentDevice();
-    const [onConnectDevice, onDisconnectRequest] = useConnectDevice(currentDevice)
-    const initialized = useRef(false)
+    // const [onConnectDevice, onDisconnectRequest] = useConnectDevice(currentDevice)
+    // const initialized = useRef(false)
+    //
+    // useEffect(() => {
+    //     if (!initialized.current) {
+    //         initialized.current = true;
+    //         onConnectDevice()
+    //             .then(resp => console.log('connected device with status: ' + resp.status))
+    //
+    //         return () => {
+    //             onDisconnectRequest().then(() => console.log('disconnected device'))
+    //         }
+    //     }
+    //
+    // }, [])
 
-    useEffect(() => {
-        if (!initialized.current) {
-            initialized.current = true;
-            onConnectDevice()
-                .then(resp => console.log('connected device with status: ' + resp.status))
+    // usePlayerSynchronization();
 
-            return () => {
-                onDisconnectRequest().then(() => console.log('disconnected device'))
-            }
-        }
+    // useEffect(() => {
+    //     getDevicesForUser().then(value => setDevices(value));
+    // }, []);
+    //
+    // useEffect(() => {
+    //     devices
+    //         .filter(value => value.active)
+    //         .forEach(activeDevice => devicesHook.setActiveDevice(activeDevice));
+    //
+    //     const inactiveDevices = devices.filter(value => !value.active);
+    //     devicesHook.setInactiveDevices(inactiveDevices);
+    // }, [devices]);
 
-    }, [])
-
-    usePlayerSynchronization();
-
-    useEffect(() => {
-        getDevicesForUser().then(value => setDevices(value));
-    }, []);
-
-    useEffect(() => {
-        devices
-            .filter(value => value.active)
-            .forEach(activeDevice => devicesHook.setActiveDevice(activeDevice));
-
-        const inactiveDevices = devices.filter(value => !value.active);
-        devicesHook.setInactiveDevices(inactiveDevices);
-    }, [devices]);
-
-    if (!currentTrack || !player.activeId) {
+    if (!currentTrack) {
         return null;
     }
+
+    const songId = (currentTrack ? currentTrack.id : player.activeId)!
 
     return (
         <Box
@@ -72,7 +75,7 @@ function AudioPlayer() {
                 zIndex: 1200,
             }}
         >
-            <AudioPlayerContent key={player.activeId + queue.currentIndex} song={currentTrack} isActive={player.isActive} />
+            <AudioPlayerContent key={songId + queue.currentIndex} song={currentTrack} isActive={player.isActive} />
         </Box>
     );
 }

@@ -37,7 +37,7 @@ function AudioPlayerContent({ song, isActive }: AudioPlayerContentProps) {
 
 
     const [play, { pause, sound, duration }] = useSound(
-        uris.get(player.activeId),
+        uris.get(song.id),
         { onend: onPlayNext, format: ['mp3'] }
     );
 
