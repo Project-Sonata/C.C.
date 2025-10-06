@@ -28,19 +28,18 @@ function AudioPlayerContent({ song, isActive }: AudioPlayerContentProps) {
     const player = usePlayer();
     const queue = useQueue();
 
-    const [volume, setVolume] = useState(0.5);
-
     const onPause = () => { player.setIsActive(false); pause(); };
     const onPlay = () => { player.setIsActive(true); play(); };
-
 
     const [play, { pause, sound, duration }] = useSound(
         uris.get(song.id),
         { onend: onPlayNext, format: ['mp3'] }
     );
 
-    // Sync player state
-    useEffect(() => { setVolume(player.volume); sound?.volume(player.volume); }, [player.volume]);
+    useEffect(() => {
+        if (!sound) return;
+        sound?.volume(player.volume);
+    }, [player.volume, sound]);
 
     useEffect(() => {
         if (isActive) !sound?.playing() && onPlay();
@@ -104,7 +103,7 @@ function AudioPlayerContent({ song, isActive }: AudioPlayerContentProps) {
             </Grid>
 
             <Grid item xs={12} md={4}>
-                <PlayerOperations volume={volume} playerControls={sound} />
+                <PlayerOperations volume={player.volume} playerControls={sound} />
             </Grid>
         </Grid>
     );
