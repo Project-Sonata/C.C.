@@ -28,12 +28,10 @@ function AudioPlayerContent({ song, isActive }: AudioPlayerContentProps) {
     const player = usePlayer();
     const queue = useQueue();
 
-    const [isPlaying, setIsPlaying] = useState(isActive);
     const [volume, setVolume] = useState(0.5);
 
-
-    const onPause = () => { setIsPlaying(false); pause(); };
-    const onPlay = () => { setIsPlaying(true); play(); };
+    const onPause = () => { player.setIsActive(false); pause(); };
+    const onPlay = () => { player.setIsActive(true); play(); };
 
 
     const [play, { pause, sound, duration }] = useSound(
@@ -42,7 +40,6 @@ function AudioPlayerContent({ song, isActive }: AudioPlayerContentProps) {
     );
 
     // Sync player state
-    useEffect(() => { player.setIsActive(isPlaying); }, [isPlaying]);
     useEffect(() => { setVolume(player.volume); sound?.volume(player.volume); }, [player.volume]);
 
     useEffect(() => {
@@ -52,7 +49,7 @@ function AudioPlayerContent({ song, isActive }: AudioPlayerContentProps) {
 
     useEffect(() => {
         onPlay();
-        return () => { sound?.unload(); setIsPlaying(false); };
+        return () => { sound?.unload(); player.setIsActive(false); };
     }, [sound]);
 
     if (!sound) return <div>Failed to load the sound!</div>;
@@ -62,8 +59,7 @@ function AudioPlayerContent({ song, isActive }: AudioPlayerContentProps) {
     function onPlayNext() {
         const nextTrack = queue.next();
         if (!nextTrack) {
-            setIsPlaying(false);
-            player.setContext(undefined);
+            player.setIsActive(false);
             return;
         }
         player.setId(nextTrack.id);
@@ -73,7 +69,10 @@ function AudioPlayerContent({ song, isActive }: AudioPlayerContentProps) {
 
     const onPlayPrevious = () => {
         const prevTrack = queue.previous();
-        if (!prevTrack) { setIsPlaying(false); return; }
+        if (!prevTrack) {
+            player.setIsActive(false);
+            return;
+        }
         player.setId(prevTrack.id);
         player.setCurrentTrack(prevTrack);
         player.setIsActive(true);
@@ -91,7 +90,7 @@ function AudioPlayerContent({ song, isActive }: AudioPlayerContentProps) {
                 <AudioControls
                     onNext={onPlayNext}
                     onPrev={onPlayPrevious}
-                    isPlaying={isPlaying}
+                    isPlaying={player.isActive}
                     onPlay={onPlay}
                     onPause={onPause}
                 />
