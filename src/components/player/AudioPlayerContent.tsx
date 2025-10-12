@@ -8,6 +8,7 @@ import { Track } from "../../model/Track";
 import { Timeline } from "../Timeline";
 import { AudioControls } from "../AudioControls";
 import { PlayerOperations } from "../PlayerOperations";
+import {usePlayerOperations} from "../../hooks/usePlayerOperations";
 
 const uris = new Map();
 uris.set('123', "/test.mp3");
@@ -28,8 +29,29 @@ function AudioPlayerContent({ song, isActive }: AudioPlayerContentProps) {
     const player = usePlayer();
     const queue = useQueue();
 
-    const onPause = () => { player.setIsActive(false); pause(); };
-    const onPlay = () => { player.setIsActive(true); play(); };
+    const onPause = () => {
+        player.setIsActive(false);
+        pause();
+    };
+
+    const onPlay = () => {
+        player.setIsActive(true);
+        play();
+    };
+
+    const api = usePlayerOperations();
+
+    useEffect(() => {
+        if (player.isActive) {
+            api.resume()
+                .then(() => console.log("Sent play command"))
+                .catch(() => console.error("Failed to send play API command"));
+        } else {
+            api.pause()
+                .then(() => console.log("Sent pause command"))
+                .catch(() => console.error("Failed to send pause API command"));
+        }
+    }, [player.isActive]);
 
     const [play, { pause, sound, duration }] = useSound(
         uris.get(song.id),
@@ -37,14 +59,14 @@ function AudioPlayerContent({ song, isActive }: AudioPlayerContentProps) {
     );
 
     useEffect(() => {
+        if (player.isActive) !sound?.playing() && onPlay();
+        else onPause();
+    }, [player.isActive]);
+
+    useEffect(() => {
         if (!sound) return;
         sound?.volume(player.volume);
     }, [player.volume, sound]);
-
-    useEffect(() => {
-        if (isActive) !sound?.playing() && onPlay();
-        else onPause();
-    }, [isActive]);
 
     useEffect(() => {
         onPlay();

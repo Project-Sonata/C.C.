@@ -75,7 +75,7 @@ function AudioPlayer() {
                 zIndex: 1200,
             }}
         >
-            <AudioPlayerContent key={songId + queue.currentIndex} song={currentTrack} isActive={player.isActive} />
+            <AudioPlayerContent key={songId + queue.currentIndex} song={currentTrack} isActive={true} />
         </Box>
     );
 }
