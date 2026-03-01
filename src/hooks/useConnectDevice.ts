@@ -1,8 +1,9 @@
 import {Device, DeviceType} from "../model/Device";
+import {SONATA_CONNECT_API} from "./api/config";
+import {secureFetch} from "./api/secureFetch";
 
 
 export function useConnectDevice(device: Device) {
-    const token = 'Bearer token1'
     const json = {
         "id": device.id,
         "name": device.name,
@@ -11,27 +12,17 @@ export function useConnectDevice(device: Device) {
     };
 
     const onConnectRequest = () => {
-        console.log('sedning connect device request')
-        return fetch('http://localhost:8080/v1/player/device/connect',
+        return secureFetch(`${SONATA_CONNECT_API}/v1/player/devices`,
             {
-                method: 'PUT',
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": token
-                },
+                method: 'POST',
                 body: JSON.stringify(json)
             })
     };
 
     const onDisconnectRequest = () => {
-        console.log('sedning disconnect device request')
-        return fetch('http://localhost:8080/v1/player/device?device_id=' + device.id,
+        return secureFetch(`${SONATA_CONNECT_API}/v1/player/devices?device_id=${device.id}`,
             {
                 method: 'DELETE',
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": token
-                }
             })
     };
 

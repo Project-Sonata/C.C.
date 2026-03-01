@@ -12,7 +12,36 @@
     width: 10px;
     height: 10px;
     box-shadow: none;
+}.slider {
+     height: 4px;
+ }
+
+.slider .MuiSlider-rail {
+    background-color: rgba(255, 255, 255, 0.3);
 }
+
+.slider .MuiSlider-track {
+    background-color: white;
+}
+
+.slider .MuiSlider-thumb {
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    display: none;
+    box-shadow: none;
+}
+
+.slider:hover .MuiSlider-thumb {
+    display: block;
+}
+
+.slider:hover .MuiSlider-track {
+    background-color: #009033;
+    box-shadow: none;
+    border: none;
+}
+
 
 .slider:hover .MuiSlider-thumb {
     color: green;

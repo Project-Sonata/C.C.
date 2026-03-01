@@ -9,9 +9,10 @@ function doOnPlay(player: PlayerStore, track: Track, queue: Queue, tracks: Track
     player.setIsActive(true)
     queue.clear()
     queue.setCurrentTrack(track)
-    const index = tracks.indexOf(track);
+    const index = tracks.findIndex(t => t.id === track.id);
+    const tracksToQueue = index === -1 ? tracks : tracks.slice(index);
 
-    tracks.slice(index).forEach(t => queue.add(t))
+    tracksToQueue.forEach(t => queue.add(t))
 }
 
 const useOnPlay = (tracks: Track[], context?: string) => {
@@ -34,7 +35,7 @@ const useOnPlay = (tracks: Track[], context?: string) => {
 
             return;
         }
-        if (player.context === context && queue.currentTrack?.id === track.id) {
+        if (queue.currentTrack?.id === track.id && (context === undefined || player.context === context)) {
             player.setIsActive(true)
             return;
         }

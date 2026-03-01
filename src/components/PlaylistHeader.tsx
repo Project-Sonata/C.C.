@@ -1,39 +1,48 @@
 import * as React from 'react';
 import {Box, Typography} from "@mui/material";
 import {Playlist} from "../model/Playlist";
-// import { average, prominent } from 'color.js'
-import {useState} from "react";
-import Color, {useColor} from "color-thief-react";
+import {useColor} from "color-thief-react";
 
 type Props = {
-    playlist: Playlist
+    playlist: Playlist;
 };
 
-export const PlaylistHeader = ({playlist: {description, image, name}}: Props) => {
-    const {data, loading, error} = useColor(image, "hex", {crossOrigin: ""})
-    console.log(data, loading, error)
-    return (
-        <Box display={"flex"} width={"100%"} height={"30%"} sx={{
-            background: data
+const fallbackImage = "/default-playlist-cover.png"; // replace with actual fallback image path
+const fallbackBackground = "#1c1a1a"; // neutral dark gray fallback
 
-        }}>
-            <Box sx={{
-                padding: "20px"
-            }}>
-                <img height={200} width={200} src={image}></img>
+export const PlaylistHeader = ({playlist: {description, image, name}}: Props) => {
+    const validImage = image ?? fallbackImage;
+    const {data: color, loading, error} = useColor(image || "", "hex", {crossOrigin: ""});
+
+    const background = image && color && !loading && !error ? color : fallbackBackground;
+
+    return (
+        <Box
+            display="flex"
+            width="100%"
+            height="30%"
+            sx={{ background }}
+        >
+            <Box sx={{ padding: "20px" }}>
+                <img
+                    height={200}
+                    width={200}
+                    src={validImage}
+                    alt="Playlist cover"
+                    style={{ objectFit: "cover", borderRadius: "4px" }}
+                />
             </Box>
-            <Box flexDirection="column" paddingTop={"3%"}>
+
+            <Box flexDirection="column" paddingTop="3%">
+                <Box>Public Playlist</Box>
                 <Box>
-                    Public Playlist
-                </Box>
-                <Box>
-                    <Typography variant={"h2"}>{name}</Typography>
+                    <Typography variant="h2">{name}</Typography>
                     <Typography>{description}</Typography>
                 </Box>
-                <Typography paddingTop={"5%"}>
+                <Typography paddingTop="5%">
                     Made for ODEYALO
                 </Typography>
             </Box>
         </Box>
     );
-}
+};

@@ -1,25 +1,34 @@
 import {Playlist} from "../model/Playlist";
+import {getPlaylist} from "../MockedPlaylistStore";
 
 
 export default async  function getPlaylistById(playlistId: string): Promise<Playlist | null> {
-    const response = await fetch("http://localhost:9666/playlist/" + playlistId, {
-        method: "GET",
-        headers: {
-            "Authorization": "Bearer token1",
-            "Content-Type": "application/json",
-        },
-    });
+    // const response = await fetch("http://localhost:9666/playlist/" + playlistId, {
+    //     method: "GET",
+    //     headers: {
+    //         "Authorization": "Bearer token1",
+    //         "Content-Type": "application/json",
+    //     },
+    // });
+    //
+    // if (response.status === 204) {
+    //     return null;
+    // }
+    //
+    //  return response.json()
+    //     .then(body => {
+    //         const result = body as Playlist;
+    //         result.tracks = []
+    //         result.image = body.images.images[0]?.url
+    //         console.log(result)
+    //         return result;
+    //     })
 
-    if (response.status === 204) {
-        return null;
+    const playlist = getPlaylist(playlistId);
+
+    if (playlist === undefined) {
+        return Promise.resolve(null)
     }
 
-     return response.json()
-        .then(body => {
-            const result = body as Playlist;
-            result.tracks = []
-            result.image = body.images.images[0].url
-            console.log(result)
-            return result;
-        })
+    return Promise.resolve(playlist)
 }

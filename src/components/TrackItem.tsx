@@ -23,124 +23,102 @@ export function TrackItem({track, index, isActive, isCurrentlyPlaying, onPlayReq
     const onPlay = onPlayRequested
     const onPause = useOnPause()
 
+    const activeColor = "#1DB954" // Spotify-like green or similar brand color
+
     return (
         <Box
             onMouseEnter={() => setShowPlayPauseButton(true)}
             onMouseLeave={() => setShowPlayPauseButton(false)}
             sx={{
                 display: 'flex',
-                position: 'relative',
-                transition: 'background-color 0.3s',
-                justifyItems: 'center',
                 alignItems: 'center',
-                padding: theme.spacing(1.5),
+                padding: theme.spacing(1, 2),
+                borderRadius: 1,
+                transition: 'background-color 0.2s ease',
+                cursor: 'pointer',
                 '&:hover': {
-                    backgroundColor: 'rgba(206, 206, 206, 0.1)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
                 }
-            }}>
+            }}
+            onClick={() => !isActive && onPlay(track)}
+        >
             <Box sx={{
-                position: 'relative',
-                height: '30px',
-                width: '20px'
-            }}>
-                {showPlayPauseButton ?
-                    isActive ?
-                        <PauseButton boxProps={{
-                            sx:{
-                                backgroundColor: 'transparent'
-                            }
-                        }}
-                            onClick={onPause}/> :
-
-                        <PlayButton boxProps={{
-                            sx:{
-                                backgroundColor: 'transparent'
-                            }
-                        }} onClick={() => onPlay(track)}/> :
-                    isActive ?
-                        <Equalizer/> :
-                        isCurrentlyPlaying ?
-                            <Typography variant={"body1"} fontSize={24} color={"green"}> {index} </Typography>
-                            :
-                            <Typography variant={"body1"} fontSize={24} color={"white"}>
-                                {index}
-                            </Typography>
-                }
-            </Box>
-            <Box sx={{
-                position: 'relative',
+                width: 40,
                 display: 'flex',
-                width: '30%',
+                justifyContent: 'center',
                 alignItems: 'center',
-                justifyItems: 'center'
+                mr: 2
             }}>
-                <Box sx={{
-                    display: 'flex',
-                    position: 'relative',
-                    aspectRatio: '1',
-                    overflow: 'hidden',
-                    alignItems: 'center',
-                    paddingLeft: '15px'
-                }}>
-                    <img src={track.imageUrl}
-                         style={{
-                             width: '50px',
-                             height: '50px',
-                             objectFit: 'cover',
-                             marginRight: 'auto',
-                             display: 'block'
-                         }} alt={"track image"}/>
-                </Box>
+                {showPlayPauseButton ? (
+                    isActive ? (
+                        <PauseButton 
+                            boxProps={{ sx: { backgroundColor: 'transparent', p: 0 } }}
+                            onClick={(e) => { e.stopPropagation(); onPause(); }}
+                        />
+                    ) : (
+                        <PlayButton 
+                            boxProps={{ sx: { backgroundColor: 'transparent', p: 0 } }}
+                            onClick={(e) => { e.stopPropagation(); onPlay(track); }}
+                        />
+                    )
+                ) : (
+                    isActive ? (
+                        <Equalizer />
+                    ) : (
+                        <Typography 
+                            variant="body2" 
+                            sx={{ 
+                                color: isCurrentlyPlaying ? activeColor : 'text.secondary',
+                                fontWeight: isCurrentlyPlaying ? 600 : 400
+                            }}
+                        >
+                            {index}
+                        </Typography>
+                    )
+                )}
+            </Box>
 
-                <Box sx={{
-                    position: 'relative',
-                    flexDirection: 'column',
-                    paddingLeft: '15px'
+            <Box sx={{ display: 'flex', alignItems: 'center', flex: 4, minWidth: 0 }}>
+                <Box sx={{ 
+                    width: 40, 
+                    height: 40, 
+                    mr: 2, 
+                    flexShrink: 0,
+                    borderRadius: 0.5,
+                    overflow: 'hidden'
                 }}>
-                    <Typography variant={"inherit"} color={isCurrentlyPlaying ? "green" : "white"} noWrap>
+                    <img 
+                        src={track.imageUrl} 
+                        alt={track.name}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                </Box>
+                <Box sx={{ minWidth: 0 }}>
+                    <Typography 
+                        variant="body1" 
+                        noWrap 
+                        sx={{ 
+                            color: isCurrentlyPlaying ? activeColor : 'white',
+                            fontWeight: 500
+                        }}
+                    >
                         {track.name}
                     </Typography>
-                    <Box sx={{
-                        position: 'relative'
-                    }}>
-                        <Typography
-                            variant={"caption"}
-                            noWrap
-                        >
-                            {track.author.name}
-                        </Typography>
-                    </Box>
+                    <Typography variant="body2" color="text.secondary" noWrap>
+                        {track.author.name}
+                    </Typography>
                 </Box>
             </Box>
 
-
-            <Box marginLeft={20} sx={{
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                justifyItems: 'center'
-            }}>
-                <Typography
-                    variant={"caption"}
-                    noWrap
-                >
+            <Box sx={{ flex: 3, px: 2, display: { xs: 'none', md: 'block' }, minWidth: 0 }}>
+                <Typography variant="body2" color="text.secondary" noWrap>
                     {track.album.name}
                 </Typography>
             </Box>
 
-            <Box sx={{
-                position: 'relative',
-                display: 'flex',
-                marginLeft: "auto",
-                padding: "15px",
-                alignItems: 'center',
-                justifyItems: 'center'
-            }}>
-                <Typography
-                    variant={"caption"}
-                    noWrap
-                >
-                    {millisToMinutesAndSeconds(track.durationMs) || 'NaN'}
+            <Box sx={{ width: 60, display: 'flex', justifyContent: 'flex-end' }}>
+                <Typography variant="body2" color="text.secondary">
+                    {millisToMinutesAndSeconds(track.durationMs) || '--:--'}
                 </Typography>
             </Box>
         </Box>

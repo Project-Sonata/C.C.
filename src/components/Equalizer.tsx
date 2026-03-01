@@ -1,31 +1,51 @@
 import * as React from 'react';
-import {Box} from "@mui/material";
-import './Equalizer.css'
+import { Box } from "@mui/material";
+import './Equalizer.css';
 
 type Props = {
-    height?: string
-    width?: string,
-    barWidth?: string,
+    size?: 'small' | 'medium' | 'large';
 };
 
-export const Equalizer = ({height, width, barWidth}: Props) => {
+const sizeMap = {
+    small: 32,
+    medium: 48,
+    large: 64,
+};
+
+export const Equalizer = ({ size = 'small' }: Props) => {
+    const containerSize = sizeMap[size];
+
     return (
-        <Box className="soundwave-container" sx={{
-            height: height || '30px',
-            width: width || 'auto',
-        }}>
-            <Box className="bar" sx={{
-                width: barWidth || '2px',
-            }}/>
-            <Box className="bar" sx={{
-                width: barWidth || '2px',
-            }}/>
-            <Box className="bar" sx={{
-                width: barWidth || '2px',
-            }}/>
-            <Box className="bar" sx={{
-                width: barWidth || '2px',
-            }}/>
+        <Box
+            sx={{
+                width: containerSize,
+                height: containerSize,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}
+        >
+            <Box
+                className="soundwave-container"
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    width: containerSize / 2,
+                    height: '100%'
+                }}
+            >
+                {[...Array(4)].map((_, i) => (
+                    <Box
+                        key={i}
+                        className="bar"
+                        sx={{
+                            width: 2,
+                            transformOrigin: 'center'
+                        }}
+                    />
+                ))}
+            </Box>
         </Box>
     );
 };

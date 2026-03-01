@@ -1,155 +1,135 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import usePlayer from "../../hooks/usePlayer";
-import useSound from 'use-sound';
-import {Box, Grid, IconButton} from "@mui/material";
-import {PlayCircle, SkipNext, SkipPrevious, StopCircle} from "@mui/icons-material";
-import MediaItem from "../MediaItem";
-import {Track} from "../../model/Track";
-import {Timeline} from "../Timeline";
-import {PlayerOperations} from "../PlayerOperations";
-import {AudioControls} from "../AudioControls";
 import useQueue from "../../hooks/useQueue";
-import useOnPlay from "../../hooks/useOnPlay";
+import useSound from 'use-sound';
+import { Box, Grid } from "@mui/material";
+import MediaItem from "../MediaItem";
+import { Track } from "../../model/Track";
+import { Timeline } from "../Timeline";
+import { AudioControls } from "../AudioControls";
+import { PlayerOperations } from "../PlayerOperations";
+import {usePlayerOperations} from "../../hooks/usePlayerOperations";
 
 const uris = new Map();
-
-uris.set('123', "/test.mp3",)
-uris.set('1234', "/test2.mp3")
-uris.set('1235', "/test3.mp3")
-uris.set('04nJixim5a0MAz3PGiVID1', "/test4.mp3")
-uris.set('1237', "/test5.mp3")
-uris.set('1238', "/test6.mp3")
-uris.set('1239', "/test7.mp3")
-uris.set('miku123', "/test8.mp3")
-
+uris.set('123', "/test.mp3");
+uris.set('1234', "/test2.mp3");
+uris.set('1235', "/test3.mp3");
+uris.set('04nJixim5a0MAz3PGiVID1', "/test4.mp3");
+uris.set('1237', "/test5.mp3");
+uris.set('1238', "/test6.mp3");
+uris.set('1239', "/test7.mp3");
+uris.set('miku123', "/test8.mp3");
 
 type AudioPlayerContentProps = {
-    song: Track,
-    isActive: boolean
-}
+    song: Track;
+    isActive: boolean;
+};
 
-function AudioPlayerContent({song, isActive}: AudioPlayerContentProps) {
-    const player = usePlayer()
-    const queue = useQueue()
+function AudioPlayerContent({ song, isActive }: AudioPlayerContentProps) {
+    const player = usePlayer();
+    const queue = useQueue();
 
-    const [isPlaying, setIsPlaying] = useState(isActive)
-    const [volume, setVolume] = useState(0.5)
+    const onPause = () => {
+        player.setIsActive(false);
+        pause();
+    };
 
-    const [play, {pause, sound, duration}] = useSound(
-        uris.get(player.activeId),
-        {
-            onend: () => onPlayNext(),
-            format: ['mp3']
+    const onPlay = () => {
+        player.setIsActive(true);
+        play();
+    };
+
+    const api = usePlayerOperations();
+
+    useEffect(() => {
+        if (player.isActive) {
+            api.resume()
+                .then(() => console.log("Sent play command"))
+                .catch(() => console.error("Failed to send play API command"));
+        } else {
+            api.pause()
+                .then(() => console.log("Sent pause command"))
+                .catch(() => console.error("Failed to send pause API command"));
         }
+    }, [player.isActive]);
+
+    const [play, { pause, sound, duration }] = useSound(
+        uris.get(song.id),
+        { onend: onPlayNext, format: ['mp3'] }
     );
 
     useEffect(() => {
-        player.setIsActive(isPlaying)
-    }, [isPlaying]);
+        if (player.isActive) !sound?.playing() && onPlay();
+        else onPause();
+    }, [player.isActive]);
 
     useEffect(() => {
-        setVolume(player.volume)
-        sound?.volume(player.volume)
-    }, [player.volume])
+        if (!sound) return;
+        sound?.volume(player.volume);
+    }, [player.volume, sound]);
 
     useEffect(() => {
-        if (isActive) {
-            if (!sound?.playing()) {
-                onPlay()
-            }
-        } else {
-            onPause()
-        }
-    }, [isActive])
-
-    useEffect(() => {
-        onPlay()
-        return () => {
-            sound?.unload();
-            setIsPlaying(false)
-        }
+        onPlay();
+        return () => { sound?.unload(); player.setIsActive(false); };
     }, [sound]);
 
+    if (!sound) return <div>Failed to load the sound!</div>;
 
-    function onPause() {
-        setIsPlaying(false)
-        pause()
-    }
-
-    function onPlay() {
-        setIsPlaying(true)
-        play()
-    }
-
-
-    if (sound === null || sound === undefined) {
-        return (
-            <div>
-                Failed to load the sound!
-            </div>
-        )
-    }
-
-    function handleTimeUpdateRequested(requestedTimeMs: number) {
-        return sound?.seek(requestedTimeMs / 1000);
-    }
+    const handleTimeUpdateRequested = (requestedTimeMs: number) => sound?.seek(requestedTimeMs / 1000);
 
     function onPlayNext() {
-        const nextTrack = queue.next()
+        const nextTrack = queue.next();
         if (!nextTrack) {
-            setIsPlaying(false)
-            player.setContext(undefined)
+            player.setIsActive(false);
             return;
         }
-        player.setId(nextTrack.id)
-        player.setCurrentTrack(nextTrack)
-        player.setIsActive(true)
+        player.setId(nextTrack.id);
+        player.setCurrentTrack(nextTrack);
+        player.setIsActive(true);
     }
 
-    function onPlayPrevious() {
-        const previous = queue.previous()
-
-        if (!previous) {
-            setIsPlaying(false)
+    const onPlayPrevious = () => {
+        const prevTrack = queue.previous();
+        if (!prevTrack) {
+            player.setIsActive(false);
             return;
         }
-        player.setId(previous.id)
-        player.setCurrentTrack(previous)
-        player.setIsActive(true)
-
-    }
+        player.setId(prevTrack.id);
+        player.setCurrentTrack(prevTrack);
+        player.setIsActive(true);
+    };
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} alignItems="center">
             <Grid item xs={12} md={4}>
-                <Box sx={{display: 'flex', justifyContent: 'start'}}>
-                    <Box sx={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
-                        <MediaItem track={song}/*data={song}*/ />
-                        {/*<LikeButton songId={song.id} />*/}
-                    </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <MediaItem track={song} />
                 </Box>
             </Grid>
-            {/*Player operations*/}
-            <Grid className={"grid"}
-                  container
-                  justifyContent={"center"}
-                  alignContent="center"
-                  spacing={0}
-                  item xs={12} md={4}>
-                <AudioControls onNext={onPlayNext} onPrev={onPlayPrevious} isPlaying={isPlaying} onPlay={onPlay} onPause={onPause}/>
 
-                <Grid container>
-                    <Timeline duration={duration}
-                              playerControls={sound}
-                              onTimeUpdateRequested={handleTimeUpdateRequested}/>
-                </Grid>
+            <Grid item xs={12} md={4} container direction="column" alignItems="center" spacing={0}>
+                <AudioControls
+                    onNext={onPlayNext}
+                    onPrev={onPlayPrevious}
+                    isPlaying={player.isActive}
+                    onPlay={onPlay}
+                    onPause={onPause}
+                />
+                <Box sx={{ mt: 1, width: '100%' }}>
+                    <Timeline
+                        duration={duration}
+                        playerControls={sound}
+                        onTimeUpdateRequested={handleTimeUpdateRequested}
+                    />
+                </Box>
             </Grid>
-            {/*Player operations on left side, change active device, volume, fullscreen, etc*/}
-            <Grid container xs={12} md={4}>
-                <PlayerOperations volume={volume} playerControls={sound}/>
+
+            <Grid item xs={12} md={4}>
+                <PlayerOperations volume={player.volume} playerControls={sound} />
             </Grid>
         </Grid>
     );
 }
+
 
 export default AudioPlayerContent;

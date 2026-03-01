@@ -31,7 +31,7 @@ const useQueue = create<Queue>((set, get) => ({
     setCurrentIndex: (index) => set({currentIndex: index}),
     setCurrentTrack: (track) => set({currentTrack: track}),
     remove: (trackId) => set(state => state),
-    clear: () => set({tracks: [], currentTrack: undefined, currentIndex: 0}),
+    clear: () => set({tracks: [], currentTrack: null, currentIndex: 0}),
     next: () => {
         const nextIndex = get().currentIndex + 1
         if (nextIndex >= get().tracks.length) {
